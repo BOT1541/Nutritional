@@ -4,99 +4,172 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>NutriCritical — Нутритивная поддержка в ОРИТ</title>
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-:root{--bg:#0B0F19;--card:#131825;--card2:#1A2035;--border:#1E2A45;--text:#E2E8F0;--muted:#64748B;--accent:#6366F1;--accent2:#818CF8;--green:#10B981;--red:#EF4444;--yellow:#F59E0B;--cyan:#06B6D4;--purple:#A78BFA;--font:'Outfit',sans-serif;--mono:'JetBrains Mono',monospace}
+:root{
+  --bg:#F0F4FF;
+  --card:#FFFFFF;
+  --card2:#F8FAFF;
+  --border:#E2E8F8;
+  --text:#1E293B;
+  --muted:#64748B;
+  --accent:#6366F1;
+  --accent2:#4F46E5;
+  --green:#059669;
+  --green-bg:#ECFDF5;
+  --red:#DC2626;
+  --red-bg:#FEF2F2;
+  --yellow:#D97706;
+  --yellow-bg:#FFFBEB;
+  --cyan:#0891B2;
+  --cyan-bg:#ECFEFF;
+  --purple:#7C3AED;
+  --purple-bg:#F5F3FF;
+  --font:'Nunito',sans-serif;
+  --mono:'JetBrains Mono',monospace;
+  --shadow:0 2px 12px rgba(99,102,241,0.10);
+  --shadow-lg:0 8px 32px rgba(99,102,241,0.15);
+}
 body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:100vh;-webkit-font-smoothing:antialiased}
-.header{background:linear-gradient(135deg,#0F172A 0%,#1E1B4B 50%,#312E81 100%);padding:20px 24px;border-bottom:2px solid var(--accent)}
-.header h1{font-size:24px;font-weight:800;letter-spacing:-0.5px}
-.header h1 span{font-size:11px;font-weight:500;background:rgba(99,102,241,0.2);color:var(--accent2);padding:2px 10px;border-radius:20px;margin-left:8px;vertical-align:middle}
-.header p{font-size:12px;color:var(--muted);font-family:var(--mono);margin-top:4px}
-.nav{background:var(--card);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:50;overflow-x:auto;white-space:nowrap;-webkit-overflow-scrolling:touch}
+
+/* HEADER */
+.header{background:linear-gradient(135deg,#6366F1 0%,#8B5CF6 50%,#06B6D4 100%);padding:20px 24px;position:relative;overflow:hidden}
+.header::before{content:'';position:absolute;top:-40px;right:-40px;width:200px;height:200px;background:rgba(255,255,255,0.08);border-radius:50%}
+.header::after{content:'';position:absolute;bottom:-30px;left:30%;width:150px;height:150px;background:rgba(255,255,255,0.05);border-radius:50%}
+.header h1{font-size:26px;font-weight:900;color:#fff;letter-spacing:-0.5px;position:relative}
+.header h1 span{font-size:12px;font-weight:700;background:rgba(255,255,255,0.25);color:#fff;padding:3px 10px;border-radius:20px;margin-left:10px;vertical-align:middle}
+.header p{font-size:12px;color:rgba(255,255,255,0.8);margin-top:5px;position:relative}
+
+/* NAV */
+.nav{background:#fff;border-bottom:2px solid var(--border);position:sticky;top:0;z-index:50;overflow-x:auto;white-space:nowrap;-webkit-overflow-scrolling:touch;box-shadow:0 2px 8px rgba(99,102,241,0.08)}
 .nav::-webkit-scrollbar{height:0}
-.nav button{background:none;border:none;color:var(--muted);padding:12px 14px;font-size:12px;font-weight:500;cursor:pointer;font-family:var(--font);border-bottom:2px solid transparent;transition:all .15s}
-.nav button:hover{color:var(--text)}
+.nav button{background:none;border:none;color:var(--muted);padding:12px 16px;font-size:13px;font-weight:700;cursor:pointer;font-family:var(--font);border-bottom:3px solid transparent;transition:all .2s}
+.nav button:hover{color:var(--accent);background:rgba(99,102,241,0.04)}
 .nav button.active{color:var(--accent2);border-bottom-color:var(--accent);background:rgba(99,102,241,0.06)}
+
+/* LAYOUT */
 .main{max-width:960px;margin:0 auto;padding:16px 12px 60px}
-.card{background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:12px}
-.card-accent{border-top:3px solid var(--accent)}
+.card{background:var(--card);border:1.5px solid var(--border);border-radius:16px;overflow:hidden;margin-bottom:12px;box-shadow:var(--shadow)}
+.card-accent{border-top:4px solid var(--accent)}
 .card-body{padding:16px 20px}
-.section-title{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:1.5px;color:var(--accent2);margin-bottom:12px}
-.hdr{background:linear-gradient(135deg,#1E1B4B,#312E81);border-radius:14px;padding:20px 24px;margin-bottom:16px}
-.hdr h2{font-size:20px;font-weight:700}
-.hdr p{font-size:12px;color:rgba(255,255,255,0.5);margin-top:4px}
+.section-title{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;color:var(--accent);margin-bottom:12px}
+
+/* HEADER BLOCK */
+.hdr{border-radius:16px;padding:20px 24px;margin-bottom:16px;color:#fff;position:relative;overflow:hidden;box-shadow:var(--shadow-lg)}
+.hdr::before{content:'';position:absolute;top:-20px;right:-20px;width:120px;height:120px;background:rgba(255,255,255,0.1);border-radius:50%}
+.hdr h2{font-size:22px;font-weight:900;position:relative}
+.hdr p{font-size:12px;color:rgba(255,255,255,0.75);margin-top:4px;position:relative}
+
+/* GRID */
 .grid{display:grid;gap:10px}
 .grid-2{grid-template-columns:1fr 1fr}
 .grid-3{grid-template-columns:1fr 1fr 1fr}
 .grid-4{grid-template-columns:1fr 1fr 1fr 1fr}
 .grid-auto{grid-template-columns:repeat(auto-fill,minmax(110px,1fr))}
 @media(max-width:600px){.grid-2,.grid-3,.grid-4{grid-template-columns:1fr 1fr}.grid-auto{grid-template-columns:1fr 1fr}}
-label.field{display:flex;flex-direction:column;gap:4px}
-label.field span{font-size:11px;color:var(--muted);font-weight:500}
-input[type="number"],select{width:100%;padding:8px 10px;border-radius:8px;border:1.5px solid var(--border);background:var(--card2);color:var(--text);font-size:14px;font-family:var(--mono);outline:none;transition:border-color .15s}
-input:focus,select:focus{border-color:var(--accent)}
-.tag{display:inline-block;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600}
-.metric{text-align:center;padding:12px}
-.metric .val{font-size:24px;font-weight:800;font-family:var(--mono)}
-.metric .lbl{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
-.gauge{height:6px;border-radius:3px;background:#1E293B;position:relative;margin-top:10px;overflow:hidden}
-.gauge-fill{position:absolute;left:0;top:0;height:100%;border-radius:3px;transition:width .3s}
-.alert{border-radius:10px;padding:10px 14px;display:flex;gap:8px;align-items:flex-start;font-size:12.5px;line-height:1.5;margin-bottom:6px}
-.alert-danger{background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.25);color:#FCA5A5}
-.alert-warning{background:rgba(245,158,11,0.1);border:1px solid rgba(245,158,11,0.25);color:#FDE68A}
-.alert-info{background:rgba(99,102,241,0.1);border:1px solid rgba(99,102,241,0.25);color:#C7D2FE}
-.tactic{font-size:12.5px;color:var(--text);line-height:1.6;padding-left:16px;position:relative;margin-bottom:3px}
-.tactic::before{content:'→';position:absolute;left:0;color:var(--accent2)}
-.btn{padding:8px 16px;border-radius:8px;border:none;cursor:pointer;font-size:13px;font-weight:600;font-family:var(--font);transition:all .15s}
-.btn-primary{background:var(--accent);color:#fff}
-.btn-outline{background:none;border:2px solid var(--border);color:var(--muted)}
-.btn-outline.active{border-color:var(--accent);color:var(--accent2);background:rgba(99,102,241,0.08)}
-.btn-ghost{background:none;border:2px dashed var(--border);color:var(--muted);width:100%;padding:10px}
-.btn-yes,.btn-no{padding:8px 20px;border-radius:8px;border:2px solid var(--border);background:var(--card2);color:var(--muted);font-size:13px;font-weight:600;cursor:pointer}
-.btn-yes.sel{border-color:var(--green);color:var(--green);background:rgba(16,185,129,0.08)}
-.btn-no.sel{border-color:var(--red);color:var(--red);background:rgba(239,68,68,0.08)}
+
+/* INPUTS */
+label.field{display:flex;flex-direction:column;gap:5px}
+label.field span{font-size:11px;color:var(--muted);font-weight:700}
+input[type="number"],select{width:100%;padding:10px 12px;border-radius:10px;border:2px solid var(--border);background:var(--card2);color:var(--text);font-size:14px;font-family:var(--mono);outline:none;transition:border-color .15s;font-weight:600}
+input:focus,select:focus{border-color:var(--accent);background:#fff}
+
+/* TAGS */
+.tag{display:inline-block;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700}
+
+/* METRIC */
+.metric{text-align:center;padding:14px 10px;border-radius:14px}
+.metric .val{font-size:26px;font-weight:900;font-family:var(--mono);line-height:1}
+.metric .lbl{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px;font-weight:700}
+
+/* GAUGE */
+.gauge{height:8px;border-radius:4px;background:var(--border);position:relative;margin-top:10px;overflow:hidden}
+.gauge-fill{position:absolute;left:0;top:0;height:100%;border-radius:4px;transition:width .3s}
+
+/* ALERTS */
+.alert{border-radius:12px;padding:12px 16px;display:flex;gap:10px;align-items:flex-start;font-size:13px;line-height:1.5;margin-bottom:8px;font-weight:600}
+.alert-danger{background:var(--red-bg);border:2px solid #FECACA;color:#991B1B}
+.alert-warning{background:var(--yellow-bg);border:2px solid #FDE68A;color:#92400E}
+.alert-info{background:#EEF2FF;border:2px solid #C7D2FE;color:#3730A3}
+
+/* TACTIC */
+.tactic{font-size:13px;color:var(--text);line-height:1.6;padding-left:18px;position:relative;margin-bottom:4px;font-weight:600}
+.tactic::before{content:'→';position:absolute;left:0;color:var(--accent);font-weight:900}
+
+/* BUTTONS — крупные */
+.btn{padding:12px 22px;border-radius:12px;border:none;cursor:pointer;font-size:14px;font-weight:800;font-family:var(--font);transition:all .2s;letter-spacing:0.2px}
+.btn-primary{background:linear-gradient(135deg,var(--accent),var(--purple));color:#fff;box-shadow:0 4px 14px rgba(99,102,241,0.35)}
+.btn-primary:hover{transform:translateY(-1px);box-shadow:0 6px 18px rgba(99,102,241,0.4)}
+.btn-outline{background:#fff;border:2px solid var(--border);color:var(--muted);padding:12px 20px}
+.btn-outline:hover{border-color:var(--accent);color:var(--accent)}
+.btn-outline.active{border-color:var(--accent);color:var(--accent2);background:#EEF2FF}
+.btn-ghost{background:var(--card2);border:2px dashed var(--border);color:var(--muted);width:100%;padding:12px;border-radius:12px;cursor:pointer;font-size:13px;font-weight:700;font-family:var(--font);transition:all .2s}
+.btn-ghost:hover{border-color:var(--accent);color:var(--accent);background:#EEF2FF}
+.btn-yes,.btn-no{padding:12px 28px;border-radius:12px;border:2px solid var(--border);background:var(--card2);color:var(--muted);font-size:14px;font-weight:800;cursor:pointer;font-family:var(--font);transition:all .2s}
+.btn-yes:hover{border-color:var(--green);color:var(--green)}
+.btn-no:hover{border-color:var(--red);color:var(--red)}
+.btn-yes.sel{border-color:var(--green);color:#fff;background:linear-gradient(135deg,#059669,#10B981);box-shadow:0 4px 12px rgba(5,150,105,0.3)}
+.btn-no.sel{border-color:var(--red);color:#fff;background:linear-gradient(135deg,#DC2626,#EF4444);box-shadow:0 4px 12px rgba(220,38,38,0.3)}
+
+/* TABLE */
 table{width:100%;border-collapse:collapse;font-size:12px}
-th{background:var(--card2);color:var(--muted);padding:8px 6px;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.5px}
-td{padding:6px;border-bottom:1px solid var(--border)}
-td input{width:100%;background:var(--card2);border:1px solid var(--border);border-radius:5px;color:var(--text);padding:4px 6px;font-family:var(--mono);font-size:12px;text-align:center}
-.mix-card{padding:12px 16px}
-.mix-card h4{font-size:14px;font-weight:700}
-.mix-card .brand{font-size:11px;color:var(--muted);margin-left:8px}
-.mix-stats{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:8px 0}
-.mix-stat{text-align:center}
-.mix-stat .v{font-size:16px;font-weight:700;font-family:var(--mono)}
-.mix-stat .l{font-size:9px;color:var(--muted)}
-.indication{font-size:12px;color:var(--muted);background:var(--card2);border-radius:6px;padding:4px 8px}
-.compl-card{padding:16px}
-.compl-card h4{font-size:14px;font-weight:700;margin-bottom:10px}
-.step{font-size:12.5px;color:var(--text);line-height:1.7;padding-left:20px;position:relative}
-.step .num{position:absolute;left:0;font-weight:700;font-family:var(--mono)}
-.matrix-table{font-size:10px;overflow-x:auto}
-.matrix-table table{min-width:600px}
-.matrix-table th{padding:6px 4px;min-width:70px}
-.matrix-table td{padding:6px 4px;text-align:center;white-space:pre-line;line-height:1.4}
-.matrix-opt{background:rgba(16,185,129,0.12)}
-.matrix-warn{background:rgba(245,158,11,0.1)}
-.matrix-danger{background:rgba(239,68,68,0.15);color:#FCA5A5;font-weight:700}
-.footer{background:var(--card);border-top:1px solid var(--border);padding:14px 20px;text-align:center}
-.footer p{font-size:10px;color:var(--muted);font-family:var(--mono)}
-.link-bar{background:var(--card2);border-bottom:1px solid var(--border);padding:8px 20px;text-align:center}
-.link-bar a{color:var(--accent2);font-size:12px;text-decoration:none;font-weight:500}
+th{background:var(--bg);color:var(--muted);padding:10px 8px;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.5px}
+td{padding:8px;border-bottom:1px solid var(--border)}
+td input{width:100%;background:var(--card2);border:1.5px solid var(--border);border-radius:8px;color:var(--text);padding:5px 8px;font-family:var(--mono);font-size:12px;text-align:center;font-weight:600}
+
+/* MIX CARD */
+.mix-card{padding:14px 18px}
+.mix-card h4{font-size:14px;font-weight:800}
+.mix-card .brand{font-size:11px;color:var(--muted);margin-left:8px;font-weight:600}
+.mix-stats{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:10px 0}
+.mix-stat{text-align:center;background:var(--bg);border-radius:10px;padding:6px 4px}
+.mix-stat .v{font-size:16px;font-weight:800;font-family:var(--mono);color:var(--text)}
+.mix-stat .l{font-size:9px;color:var(--muted);font-weight:700;text-transform:uppercase}
+.indication{font-size:12px;color:var(--muted);background:var(--bg);border-radius:8px;padding:6px 10px;font-weight:600}
+
+/* COMPL CARD */
+.compl-card{padding:18px}
+.compl-card h4{font-size:15px;font-weight:800;margin-bottom:10px}
+.step{font-size:13px;color:var(--text);line-height:1.7;padding-left:22px;position:relative;font-weight:600}
+.step .num{position:absolute;left:0;font-weight:800;font-family:var(--mono)}
+
+/* REC BOXES */
+.rec-box{border-radius:14px;padding:16px;border:1.5px solid transparent}
+.rec-green{background:var(--green-bg);border-color:#BBF7D0}
+.rec-purple{background:var(--purple-bg);border-color:#DDD6FE}
+.rec-yellow{background:var(--yellow-bg);border-color:#FDE68A}
+.rec-blue{background:var(--cyan-bg);border-color:#BAE6FD}
+.rec-pink{background:#FDF4FF;border-color:#E9D5FF}
+
+/* CHIPS */
+.chip{display:inline-block;padding:5px 14px;border-radius:20px;font-size:12px;cursor:pointer;border:2px solid transparent;font-weight:700;margin:3px;transition:all .15s}
+.chip.on{background:linear-gradient(135deg,var(--accent),var(--purple));color:#fff;box-shadow:0 3px 8px rgba(99,102,241,0.3)}
+.chip.off{background:var(--card2);color:var(--muted);border-color:var(--border)}
+.chip.off:hover{border-color:var(--accent);color:var(--accent)}
+
+/* CHECKBOX */
+.checkbox-row{display:flex;gap:12px;flex-wrap:wrap;margin-top:12px}
+.checkbox-row label{display:flex;align-items:center;gap:8px;font-size:14px;cursor:pointer;font-weight:700;background:var(--card2);padding:8px 14px;border-radius:10px;border:2px solid var(--border);transition:all .15s}
+.checkbox-row label:hover{border-color:var(--accent);background:#EEF2FF}
+.checkbox-row input[type="checkbox"]{width:18px;height:18px;accent-color:var(--accent)}
+
+/* FOOTER */
+.footer{background:#fff;border-top:2px solid var(--border);padding:16px 20px;text-align:center}
+.footer p{font-size:11px;color:var(--muted);font-family:var(--mono)}
+.link-bar{background:linear-gradient(135deg,#EEF2FF,#F5F3FF);border-bottom:2px solid var(--border);padding:8px 20px;text-align:center}
+.link-bar a{color:var(--accent2);font-size:13px;text-decoration:none;font-weight:800}
 .link-bar a:hover{text-decoration:underline}
 .hidden{display:none}
-.chip{display:inline-block;padding:3px 10px;border-radius:14px;font-size:11px;cursor:pointer;border:none;font-weight:500;margin:2px}
-.chip.on{background:var(--accent);color:#fff}
-.chip.off{background:var(--card2);color:var(--muted)}
-.rec-box{border-radius:10px;padding:14px}
-.rec-green{background:rgba(16,185,129,0.1)}
-.rec-purple{background:rgba(139,92,246,0.1)}
-.rec-yellow{background:rgba(245,158,11,0.1)}
-.rec-blue{background:rgba(59,130,246,0.1)}
-.rec-pink{background:rgba(168,85,247,0.1)}
-.checkbox-row{display:flex;gap:12px;flex-wrap:wrap;margin-top:10px}
-.checkbox-row label{display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer}
-.checkbox-row input[type="checkbox"]{width:16px;height:16px;accent-color:var(--accent)}
+
+/* MATRIX TABLE */
+.matrix-table{font-size:10px;overflow-x:auto}
+.matrix-table table{min-width:600px}
+.matrix-table th{padding:8px 4px;min-width:70px}
+.matrix-table td{padding:8px 4px;text-align:center;white-space:pre-line;line-height:1.4;font-weight:600}
+.matrix-opt{background:#D1FAE5;color:#065F46;font-weight:800}
+.matrix-warn{background:#FEF3C7;color:#92400E}
+.matrix-danger{background:#FEE2E2;color:#991B1B;font-weight:800}
 </style>
 </head>
 <body>
@@ -105,7 +178,7 @@ td input{width:100%;background:var(--card2);border:1px solid var(--border);borde
 
 <div class="header">
   <h1>🏥 NutriCritical <span>v3.0</span></h1>
-  <p>Нутритивная поддержка в ОРИТ · Метаболическое фенотипирование · 10 модулей</p>
+  <p>Нутритивная поддержка в ОРИТ · Метаболическое фенотипирование · 8 модулей</p>
 </div>
 
 <div class="nav" id="nav"></div>
@@ -117,7 +190,7 @@ td input{width:100%;background:var(--card2);border:1px solid var(--border);borde
 
 <script>
 const TABS=[
-  {id:"phenotype",l:"🧬 Фенотипы"},{id:"matrix",l:"🗂️ Матрица"},{id:"infusion",l:"💉 Скорость"},
+  {id:"phenotype",l:"🧬 Фенотипы"},
   {id:"calculator",l:"🔢 Калькулятор"},{id:"refeeding",l:"🛡️ Refeeding"},{id:"delivery",l:"🔀 Доставка"},
   {id:"mixtures",l:"🧪 Смеси"},{id:"monitoring",l:"📊 Мониторинг"},
   {id:"complications",l:"⚠️ Осложнения"},{id:"reference",l:"📖 Справочник"}
@@ -165,7 +238,6 @@ const MODD=[
   {n:"Аддамель Н",tp:"Микроэлем.",ct:"Zn,Cu,Se...",k:0,i:"Микроэлементы",d:"1амп/сут",b:"Fresenius"},
 ];
 
-/* ═══════ STATE ═══════ */
 let S={tab:"phenotype",sex:"m",wt:75,ht:175,age:55,ree:1800,rq:0.82,vo2:250,vco2:205,lac:1.5,day:3,
   mixCat:"enteral",mixFil:"all",mixIdx:0,targetKcal:1500,hours:24,
   tmax:37.5,ve:60,aw:80,
@@ -203,19 +275,11 @@ function getRec(mi,rq,wt,lac,day){
   return {e,p,cf,sub,eM,pM,mod,al,ta};
 }
 
-/* ═══════ RENDER ENGINE ═══════ */
-function h(tag,attrs,children){
-  if(typeof attrs==='string')return `<${tag}>${attrs}</${tag}>`;
-  let a=Object.entries(attrs||{}).map(([k,v])=>`${k}="${v}"`).join(' ');
-  let c=Array.isArray(children)?children.join(''):children||'';
-  return `<${tag} ${a}>${c}</${tag}>`;
-}
-
 function render(){
   const nav=document.getElementById('nav');
   nav.innerHTML=TABS.map(t=>`<button class="${S.tab===t.id?'active':''}" onclick="S.tab='${t.id}';render()">${t.l}</button>`).join('');
   const app=document.getElementById('app');
-  const fn={phenotype:rPhenotype,matrix:rMatrix,infusion:rInfusion,calculator:rCalculator,refeeding:rRefeeding,delivery:rDelivery,mixtures:rMixtures,monitoring:rMonitoring,complications:rComplications,reference:rReference};
+  const fn={phenotype:rPhenotype,calculator:rCalculator,refeeding:rRefeeding,delivery:rDelivery,mixtures:rMixtures,monitoring:rMonitoring,complications:rComplications,reference:rReference};
   app.innerHTML=fn[S.tab]();
 }
 
@@ -226,124 +290,110 @@ function field(label,key,opts={}){
 function sel(label,key,options){
   return `<label class="field"><span>${label}</span><select onchange="S.${key}=this.value;render()">${options.map(o=>`<option value="${o.v}" ${S[key]===o.v?'selected':''}>${o.l}</option>`).join('')}</select></label>`;
 }
-function alerts(al){return (al||[]).map(a=>`<div class="alert alert-${a.t}"><span>${{danger:'🔴',warning:'🟡',info:'🔵'}[a.t]}</span><span>${a.x}</span></div>`).join('');}
-function metric(label,val,color){return `<div class="card metric"><div class="lbl">${label}</div><div class="val" style="color:${color||'var(--text)'}">${val}</div></div>`;}
+function alerts(al){return (al||[]).map(a=>`<div class="alert alert-${a.t}"><span style="font-size:16px">${{danger:'🚨',warning:'⚠️',info:'💡'}[a.t]}</span><span>${a.x}</span></div>`).join('');}
+function metric(label,val,color,bg){
+  return `<div class="card metric" style="background:${bg||'#fff'};border:1.5px solid ${color}30"><div class="lbl">${label}</div><div class="val" style="color:${color||'var(--text)'}">${val}</div></div>`;
+}
 
 /* ═══════ TABS ═══════ */
 function rPhenotype(){
   const iw=Math.round(idW(S.sex,S.ht)),bv=bmiCalc(S.wt,S.ht),ob=bv>=30;
   const cw=ob?Math.round(adjWt(S.wt,iw)):S.wt,pw=ob?iw:S.wt;
   const hbV=hbCalc(S.sex,cw,S.ht,S.age),mi=S.ree/hbV;
-  const miC=mi<.9?["Гипометаб.","#3B82F6","❄️"]:mi<=1.1?["Нормометаб.","#10B981","⚖️"]:mi<=1.3?["Гиперметаб.","#F59E0B","🔥"]:["Выраж.гипер","#EF4444","🔴"];
-  const rqC=S.rq<.70?["Кетотич.","#1E40AF"]:S.rq<.75?["Липолит.","#3B82F6"]:S.rq<.82?["Смеш.(Л)","#06B6D4"]:S.rq<.87?["Баланс","#10B981"]:S.rq<.95?["Смеш.(У)","#F59E0B"]:S.rq<=1.0?["Углевод.","#EA580C"]:["Липоген.","#DC2626"];
+  const miC=mi<.9?["❄️ Гипометаб.","#0891B2","#ECFEFF"]:mi<=1.1?["⚖️ Нормометаб.","#059669","#ECFDF5"]:mi<=1.3?["🔥 Гиперметаб.","#D97706","#FFFBEB"]:["🚨 Выраж.гипер","#DC2626","#FEF2F2"];
+  const rqC=S.rq<.70?["Кетотич.","#1D4ED8"]:S.rq<.75?["Липолит.","#0891B2"]:S.rq<.82?["Смеш.(Л)","#0891B2"]:S.rq<.87?["Баланс 🎯","#059669"]:S.rq<.95?["Смеш.(У)","#D97706"]:S.rq<=1.0?["Углевод.","#EA580C"]:["Липоген.🚨","#DC2626"];
   const rc=getRec(mi,S.rq,pw,S.lac,S.day),tK=Math.round(S.ree*rc.e.f);
   const miP=Math.min(100,Math.max(0,((mi-.5)/1.5)*100)),rqP=Math.min(100,Math.max(0,((S.rq-.5)/.8)*100));
   const bmiAl=ob?[{t:"info",x:`ИМТ ${bv.toFixed(1)} (ожирение). Энергия по скорр. весу ${cw}кг, белок по идеальному ${iw}кг.`}]:[];
   return `
-    <div class="hdr"><h2>🧬 Метаболическое фенотипирование</h2><p>MI×RQ · учёт суток и ИМТ</p></div>
+    <div class="hdr" style="background:linear-gradient(135deg,#6366F1,#8B5CF6,#06B6D4)"><h2>🧬 Метаболическое фенотипирование</h2><p>MI×RQ · учёт суток и ИМТ</p></div>
     <div class="card card-body">
-      <div class="section-title">Пациент</div>
+      <div class="section-title">👤 Пациент</div>
       <div class="grid grid-auto">
-        ${sel("Пол","sex",[{v:"m",l:"Муж"},{v:"f",l:"Жен"}])}
-        ${field("Факт. вес","wt",{min:30,max:300})}
-        ${field("Рост","ht",{min:100,max:220})}
-        ${field("Возраст","age",{min:18,max:100})}
-        ${field("Сутки бол.","day",{min:1,max:60})}
+        ${sel("Пол","sex",[{v:"m",l:"Муж 👨"},{v:"f",l:"Жен 👩"}])}
+        ${field("Факт. вес кг","wt",{min:30,max:300})}
+        ${field("Рост см","ht",{min:100,max:220})}
+        ${field("Возраст лет","age",{min:18,max:100})}
+        ${field("Сутки б-ни","day",{min:1,max:60})}
       </div>
-      <div style="display:flex;gap:12px;margin-top:10px;font-size:12px;color:var(--muted);flex-wrap:wrap">
-        <span>ИМТ: <b style="color:${ob?'var(--red)':'var(--green)'}">${bv.toFixed(1)}</b></span>
-        <span>Ид.вес: <b>${iw}кг</b></span>${ob?`<span>Скорр.: <b>${cw}кг</b></span>`:''}
-        <span>Фаза: <b style="color:${S.day<=2?'var(--cyan)':'var(--yellow)'}">${S.day<=2?'Ebb':'Flow'}</b></span>
+      <div style="display:flex;gap:10px;margin-top:12px;flex-wrap:wrap">
+        <span style="background:var(--bg);padding:6px 12px;border-radius:10px;font-size:13px;font-weight:700">ИМТ: <b style="color:${ob?'var(--red)':'var(--green)'}">${bv.toFixed(1)}</b></span>
+        <span style="background:var(--bg);padding:6px 12px;border-radius:10px;font-size:13px;font-weight:700">Ид.вес: <b>${iw}кг</b></span>
+        ${ob?`<span style="background:var(--bg);padding:6px 12px;border-radius:10px;font-size:13px;font-weight:700">Скорр.: <b>${cw}кг</b></span>`:''}
+        <span style="background:${S.day<=2?var(--cyan-bg):'#FFFBEB'};padding:6px 12px;border-radius:10px;font-size:13px;font-weight:700;color:${S.day<=2?'var(--cyan)':'var(--yellow)'}">Фаза: <b>${S.day<=2?'⬇️ Ebb':'⬆️ Flow'}</b></span>
       </div>
-      <div class="section-title" style="margin-top:14px">Калориметрия</div>
+    </div>
+    <div class="card card-body">
+      <div class="section-title">📊 Калориметрия</div>
       <div class="grid grid-auto">
-        ${field("REE (измер.)","ree",{min:500,max:5000})}
+        ${field("REE (изм.)",  "ree",{min:500,max:5000})}
         ${field("RQ","rq",{min:0.5,max:1.4,step:0.01})}
-        ${field("VO₂","vo2",{min:50,max:800})}
-        ${field("VCO₂","vco2",{min:50,max:800})}
+        ${field("VO₂ мл/мин","vo2",{min:50,max:800})}
+        ${field("VCO₂ мл/мин","vco2",{min:50,max:800})}
         ${field("Лактат","lac",{min:0,max:20,step:0.1})}
       </div>
     </div>
     ${alerts([...bmiAl,...rc.al])}
     <div class="grid grid-2">
-      <div class="card card-body" style="border-top:3px solid ${miC[1]}">
-        <div style="display:flex;justify-content:space-between"><span class="lbl">MI</span><span>${miC[2]}</span></div>
-        <div class="val" style="color:${miC[1]};font-size:32px">${mi.toFixed(2)}</div>
-        <div style="font-weight:600;margin-top:4px">${miC[0]}</div>
-        <div class="gauge"><div class="gauge-fill" style="width:${miP}%;background:linear-gradient(90deg,#3B82F6,#10B981,#F59E0B,#EF4444)"></div></div>
+      <div class="card card-body" style="border-top:4px solid ${miC[1]};background:${miC[2]}">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px"><span style="font-size:11px;color:var(--muted);font-weight:800">MI — МЕТАБОЛИЧ. ИНДЕКС</span></div>
+        <div style="font-size:38px;font-weight:900;color:${miC[1]};font-family:var(--mono)">${mi.toFixed(2)}</div>
+        <div style="font-size:14px;font-weight:800;color:${miC[1]};margin-top:4px">${miC[0]}</div>
+        <div class="gauge" style="background:rgba(0,0,0,0.08)"><div class="gauge-fill" style="width:${miP}%;background:linear-gradient(90deg,#0891B2,#059669,#D97706,#DC2626)"></div></div>
       </div>
-      <div class="card card-body" style="border-top:3px solid ${rqC[1]}">
-        <div style="display:flex;justify-content:space-between"><span class="lbl">RQ</span><span class="tag" style="background:${rqC[1]}22;color:${rqC[1]}">${S.rq.toFixed(2)}</span></div>
-        <div class="val" style="color:${rqC[1]};font-size:32px">${S.rq.toFixed(2)}</div>
-        <div style="font-weight:600;margin-top:4px">${rqC[0]}</div>
-        <div class="gauge"><div class="gauge-fill" style="width:${rqP}%;background:linear-gradient(90deg,#1E40AF,#10B981,#F59E0B,#DC2626)"></div></div>
-        <div style="font-size:11px;color:var(--muted);margin-top:6px">${rc.sub}</div>
+      <div class="card card-body" style="border-top:4px solid ${rqC[1]}">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px"><span style="font-size:11px;color:var(--muted);font-weight:800">RQ — ДЫХАТЕЛЬНЫЙ КОЭФ.</span><span class="tag" style="background:${rqC[1]}18;color:${rqC[1]}">${S.rq.toFixed(2)}</span></div>
+        <div style="font-size:38px;font-weight:900;color:${rqC[1]};font-family:var(--mono)">${S.rq.toFixed(2)}</div>
+        <div style="font-size:14px;font-weight:800;color:${rqC[1]};margin-top:4px">${rqC[0]}</div>
+        <div class="gauge" style="background:var(--border)"><div class="gauge-fill" style="width:${rqP}%;background:linear-gradient(90deg,#1D4ED8,#059669,#D97706,#DC2626)"></div></div>
+        <div style="font-size:12px;color:var(--muted);margin-top:6px;font-weight:700">${rc.sub}</div>
       </div>
     </div>
     <div class="grid grid-4">
-      ${metric("REE(HB)",Math.round(hbV)+" ккал","var(--accent)")}
-      ${metric("VO₂",S.vo2+" мл/мин","var(--cyan)")}
-      ${metric("VCO₂",S.vco2+" мл/мин","var(--purple)")}
-      ${metric("Лактат",S.lac,"${S.lac>4?'var(--red)':S.lac>2?'var(--yellow)':'var(--green)'}")}
+      ${metric("🧮 REE(HB)",Math.round(hbV)+" ккал","#6366F1","#EEF2FF")}
+      ${metric("🫁 VO₂",S.vo2+" мл/мин","#0891B2","#ECFEFF")}
+      ${metric("💨 VCO₂",S.vco2+" мл/мин","#7C3AED","#F5F3FF")}
+      ${metric("🩸 Лактат",S.lac,S.lac>4?'#DC2626':S.lac>2?'#D97706':'#059669',S.lac>4?'#FEF2F2':S.lac>2?'#FFFBEB':'#ECFDF5')}
     </div>
-    <div class="card card-body">
-      <div class="section-title">Рекомендации · сутки ${S.day} · ${S.day<=2?'ebb':'flow'}</div>
-      <div class="grid grid-3" style="margin-bottom:16px">
-        <div class="rec-box rec-green"><div class="lbl">Энергия</div><div class="val" style="color:var(--green)">${tK}</div><div style="font-size:11px">ккал/сут (${rc.e.k})</div><div style="font-size:11px;color:var(--muted);margin-top:4px">${rc.e.n}</div></div>
-        <div class="rec-box rec-purple"><div class="lbl">Белок</div><div class="val" style="color:var(--purple)">${rc.p.min}–${rc.p.max}</div><div style="font-size:11px">г/кг (${Math.round(rc.p.min*pw)}–${Math.round(rc.p.max*pw)}г)${ob?' (ид.вес!)':''}</div><div style="font-size:11px;color:var(--muted);margin-top:4px">${rc.p.n}</div></div>
-        <div class="rec-box rec-yellow"><div class="lbl">У:Ж</div><div class="val" style="color:var(--yellow)">${rc.cf}</div><div style="font-size:11px">углеводы:жиры</div></div>
+    <div class="card card-body" style="border:2px solid #E0E7FF">
+      <div class="section-title">✅ Рекомендации · сутки ${S.day} · ${S.day<=2?'ebb':'flow'}</div>
+      <div class="grid grid-3" style="margin-bottom:14px">
+        <div class="rec-box rec-green"><div style="font-size:10px;color:var(--green);font-weight:800;margin-bottom:4px">⚡ ЭНЕРГИЯ</div><div style="font-size:28px;font-weight:900;color:var(--green);font-family:var(--mono)">${tK}</div><div style="font-size:11px;color:var(--muted);font-weight:700">ккал/сут (${rc.e.k} ккал/кг)</div><div style="font-size:11px;color:var(--green);margin-top:4px;font-weight:700">${rc.e.n}</div></div>
+        <div class="rec-box rec-purple"><div style="font-size:10px;color:var(--purple);font-weight:800;margin-bottom:4px">💪 БЕЛОК</div><div style="font-size:28px;font-weight:900;color:var(--purple);font-family:var(--mono)">${rc.p.min}–${rc.p.max}</div><div style="font-size:11px;color:var(--muted);font-weight:700">г/кг (${Math.round(rc.p.min*pw)}–${Math.round(rc.p.max*pw)}г)${ob?' (ид.вес!)':''}</div><div style="font-size:11px;color:var(--purple);margin-top:4px;font-weight:700">${rc.p.n}</div></div>
+        <div class="rec-box rec-yellow"><div style="font-size:10px;color:var(--yellow);font-weight:800;margin-bottom:4px">⚖️ У:Ж СООТНОШЕНИЕ</div><div style="font-size:28px;font-weight:900;color:var(--yellow);font-family:var(--mono)">${rc.cf}</div><div style="font-size:11px;color:var(--muted);font-weight:700">углеводы : жиры</div></div>
       </div>
-      ${rc.ta.length?`<div style="background:var(--card2);border-radius:10px;padding:14px;margin-bottom:14px"><div class="section-title">Тактика</div>${rc.ta.map(t=>`<div class="tactic">${t}</div>`).join('')}</div>`:''}
+      ${rc.ta.length?`<div style="background:var(--bg);border-radius:12px;padding:14px;margin-bottom:12px;border:2px solid var(--border)"><div class="section-title">🎯 Тактика</div>${rc.ta.map(t=>`<div class="tactic">${t}</div>`).join('')}</div>`:''}
       <div class="grid grid-2">
-        <div class="rec-box rec-blue"><div style="font-size:10px;color:var(--cyan);font-weight:600;margin-bottom:4px">ЭП</div><div style="font-size:13px;font-weight:500">${rc.eM}</div></div>
-        <div class="rec-box rec-pink"><div style="font-size:10px;color:var(--purple);font-weight:600;margin-bottom:4px">ПП/модули</div><div style="font-size:13px;font-weight:500">${rc.pM}</div><div style="font-size:12px;color:var(--purple);margin-top:4px">${rc.mod}</div></div>
+        <div class="rec-box rec-blue"><div style="font-size:10px;color:var(--cyan);font-weight:800;margin-bottom:4px">🥤 ЭНТЕРАЛЬНОЕ ПИТАНИЕ</div><div style="font-size:14px;font-weight:800">${rc.eM}</div></div>
+        <div class="rec-box rec-pink"><div style="font-size:10px;color:var(--purple);font-weight:800;margin-bottom:4px">💉 ПП / МОДУЛИ</div><div style="font-size:14px;font-weight:800">${rc.pM}</div><div style="font-size:12px;color:var(--purple);margin-top:4px;font-weight:700">${rc.mod}</div></div>
       </div>
     </div>`;
-}
-
-function rMatrix(){
-  const miL=["❄️Гипо(<0.9)","⚖️Нормо(0.9–1.1)","🔥Гипер(1.1–1.3)","🔴Выраж.(>1.3)"];
-  const rqN=["Кетотич.","Липолит.","Смеш.(Л)","Баланс","Смеш.(У)","Углевод.","Липоген."];
-  const mx=[["30:70\n1.0–1.3","35:65\n1.0–1.3","40:60\n1.0–1.3","50:50\n1.0–1.3","40:60\n1.0–1.3","30:70\n1.0–1.3","↓↓ккал!\n1.0–1.3"],["30:70\n1.5–1.8","35:65\n1.2–1.5","40:60\n1.2–1.5","50:50\n1.2–1.5","40:60\n1.2–1.5","30:70\n1.2–1.5","↓↓ккал!\n1.2–1.5"],["30:70\n1.8–2.2","35:65\n1.5–1.8","40:60\n1.5–1.8","50:50\n1.5–1.8","40:60\n1.5–1.8","30:70\n1.5–1.8","↓↓ккал!\n1.5–1.8"],["30:70\n2.0–2.5","35:65\n1.8–2.0","40:60\n1.8–2.0","50:50\n1.8–2.0","40:60\n1.8–2.0","30:70\n1.8–2.0","СТОП!\n↓↓ккал!"]];
-  return `<div class="hdr" style="background:linear-gradient(135deg,#7C2D12,#9A3412)"><h2>🗂️ Матрица 17 фенотипов</h2><p>MI × RQ → У:Ж и белок (г/кг)</p></div>
-    <div class="card card-body matrix-table"><table><thead><tr><th style="background:var(--card2)">MI↓ / RQ→</th>${rqN.map((r,i)=>`<th style="background:${i===6?'#991B1B':i===3?'#065F46':'var(--card2)'}">${r}</th>`).join('')}</tr></thead>
-    <tbody>${miL.map((ml,mi)=>`<tr><td style="font-weight:700;font-size:11px;white-space:nowrap">${ml}</td>${mx[mi].map((v,rq)=>`<td class="${rq===6?'matrix-danger':rq===3?'matrix-opt':mi>=2&&rq>=4?'matrix-warn':''}">${v}</td>`).join('')}</tr>`).join('')}</tbody></table></div>
-    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px">${[{c:'var(--green)',t:'Оптимум (0.82–0.87)'},{c:'var(--yellow)',t:'Внимание'},{c:'var(--red)',t:'Опасно (RQ>1.0)'}].map(x=>`<div style="display:flex;align-items:center;gap:6px;font-size:11px;color:var(--muted)"><div style="width:12px;height:12px;border-radius:3px;background:${x.c}22;border:1px solid ${x.c}44"></div>${x.t}</div>`).join('')}</div>
-    <div class="card card-body" style="margin-top:8px"><div style="font-size:12px;color:var(--muted);line-height:1.6"><b>Верх</b> — У:Ж. <b>Низ</b> — белок г/кг/сут.</div></div>`;
-}
-
-function rInfusion(){
-  const mix=ENT[S.mixIdx],vol=Math.round(S.targetKcal/mix.k),rate=Math.round(vol/S.hours*10)/10,prot=Math.round(mix.p*vol/100);
-  return `<div class="hdr" style="background:linear-gradient(135deg,#0E7490,#155E75)"><h2>💉 Расчёт скорости введения</h2><p>Объём и скорость по целевой калорийности</p></div>
-    <div class="card card-body"><div class="grid grid-3">
-      ${field("Цель (ккал/сут)","targetKcal",{min:200,max:4000})}
-      <label class="field"><span>Смесь</span><select onchange="S.mixIdx=+this.value;render()">${ENT.map((m,i)=>`<option value="${i}" ${S.mixIdx===i?'selected':''}>${m.n} (${m.k})</option>`).join('')}</select></label>
-      ${field("Часов введения","hours",{min:8,max:24})}
-    </div></div>
-    <div class="grid grid-4">
-      ${metric("Объём",vol+" мл","var(--cyan)")}
-      ${metric("Скорость",rate+" мл/ч","var(--green)")}
-      ${metric("Белок",prot+" г","var(--purple)")}
-      ${metric("Калории",Math.round(vol*mix.k)+" ккал","var(--yellow)")}
-    </div>
-    <div class="alert alert-warning">⚠️ Старт 10–20 мл/ч, наращивать каждые 6–8ч на 10–20 мл/ч. Контроль ост. объёма каждые 6ч.</div>`;
 }
 
 function rCalculator(){
   const hbv=hbCalc(S.sex,S.wt,S.ht,S.age),mf=S.sex==="m"?10*S.wt+6.25*S.ht-5*S.age+5:10*S.wt+6.25*S.ht-5*S.age-161;
   const ps=Math.round(0.85*hbv+175*S.tmax+33*S.ve-6433);
-  const fm=[{n:"Harris-Benedict",v:Math.round(hbv),d:"Классическая (1919)"},{n:"Mifflin-St Jeor",v:Math.round(mf),d:"Современная (1990)"},{n:"Penn State",v:ps,d:`ИВЛ (Tmax=${S.tmax}, Ve=${S.ve})`},{n:"25 ккал/кг",v:Math.round(S.aw*25),d:"ESPEN нижняя"},{n:"30 ккал/кг",v:Math.round(S.aw*30),d:"ESPEN верхняя"}];
-  return `<div class="hdr" style="background:linear-gradient(135deg,#0F766E,#134E4A)"><h2>🔢 Калькулятор REE</h2><p>5 формул · Penn State с вводом Tmax и Ve</p></div>
-    <div class="card card-body"><div class="grid grid-auto">
-      ${sel("Пол","sex",[{v:"m",l:"Муж"},{v:"f",l:"Жен"}])}
-      ${field("Ид. вес","wt",{min:30,max:250})}
-      ${field("Факт. вес","aw",{min:30,max:300})}
-      ${field("Рост","ht",{min:100,max:220})}
-      ${field("Возраст","age",{min:18,max:100})}
-      ${field("Tmax (°C)","tmax",{min:35,max:42,step:0.1})}
-      ${field("Ve (л/мин)","ve",{min:3,max:20})}
-    </div></div>
-    ${fm.map((f,i)=>`<div class="card card-body" style="display:flex;justify-content:space-between;align-items:center;${i===0?'border-left:4px solid var(--accent)':''}"><div><div style="font-weight:600">${f.n}</div><div style="font-size:11.5px;color:var(--muted)">${f.d}</div></div><div style="font-size:24px;font-weight:800;font-family:var(--mono);color:${i===0?'var(--accent)':'var(--text)'}">${f.v} <span style="font-size:11px;color:var(--muted)">ккал</span></div></div>`).join('')}
+  const fm=[
+    {n:"Harris-Benedict",v:Math.round(hbv),d:"Классическая (1919)",c:"#6366F1",bg:"#EEF2FF"},
+    {n:"Mifflin-St Jeor",v:Math.round(mf),d:"Современная (1990)",c:"#0891B2",bg:"#ECFEFF"},
+    {n:"Penn State 🫁",v:ps,d:`ИВЛ (Tmax=${S.tmax}°C, Ve=${S.ve}л/мин)`,c:"#7C3AED",bg:"#F5F3FF"},
+    {n:"25 ккал/кг",v:Math.round(S.aw*25),d:"ESPEN нижняя граница",c:"#059669",bg:"#ECFDF5"},
+    {n:"30 ккал/кг",v:Math.round(S.aw*30),d:"ESPEN верхняя граница",c:"#D97706",bg:"#FFFBEB"}
+  ];
+  return `<div class="hdr" style="background:linear-gradient(135deg,#0F766E,#0891B2,#6366F1)"><h2>🔢 Калькулятор REE</h2><p>5 формул · Penn State для ИВЛ</p></div>
+    <div class="card card-body">
+      <div class="section-title">⚙️ Параметры</div>
+      <div class="grid grid-auto">
+        ${sel("Пол","sex",[{v:"m",l:"Муж 👨"},{v:"f",l:"Жен 👩"}])}
+        ${field("Ид. вес кг","wt",{min:30,max:250})}
+        ${field("Факт. вес кг","aw",{min:30,max:300})}
+        ${field("Рост см","ht",{min:100,max:220})}
+        ${field("Возраст лет","age",{min:18,max:100})}
+        ${field("Tmax °C","tmax",{min:35,max:42,step:0.1})}
+        ${field("Ve л/мин","ve",{min:3,max:20})}
+      </div>
+    </div>
+    ${fm.map((f,i)=>`<div class="card card-body" style="background:${f.bg};border:2px solid ${f.c}30;display:flex;justify-content:space-between;align-items:center"><div><div style="font-size:15px;font-weight:800;color:${f.c}">${f.n}</div><div style="font-size:12px;color:var(--muted);font-weight:600">${f.d}</div></div><div style="font-size:32px;font-weight:900;font-family:var(--mono);color:${f.c}">${f.v} <span style="font-size:12px;color:var(--muted)">ккал</span></div></div>`).join('')}
     <div class="alert alert-warning">⚠️ Формулы: ±20–30% ошибка. Непрямая калориметрия — золотой стандарт.</div>`;
 }
 
@@ -352,120 +402,127 @@ function rRefeeding(){
   const minor=[S.rfBmi<18.5&&S.rfBmi>=16,S.rfLoss>10&&S.rfLoss<=15,S.rfStarve>5&&S.rfStarve<=10,S.rfAlc,S.rfChemo].filter(Boolean).length;
   const elLow=[S.rfK,S.rfMg,S.rfPo].filter(Boolean).length;
   const risk=major>0?"high":minor>=2||elLow>0?"high":minor===1?"moderate":"low";
-  const rc=risk==="high"?"#EF4444":risk==="moderate"?"#F59E0B":"#10B981";
-  const rl=risk==="high"?"ВЫСОКИЙ":risk==="moderate"?"УМЕРЕННЫЙ":"НИЗКИЙ";
+  const rc=risk==="high"?"#DC2626":risk==="moderate"?"#D97706":"#059669";
+  const rbg=risk==="high"?"#FEF2F2":risk==="moderate"?"#FFFBEB":"#ECFDF5";
+  const rl=risk==="high"?"🚨 ВЫСОКИЙ":risk==="moderate"?"⚠️ УМЕРЕННЫЙ":"✅ НИЗКИЙ";
   const txt=risk==="high"?"Тиамин 200–300мг в/в ДО питания! Старт 10ккал/кг, K/Mg/PO₄ каждые 6–12ч.":risk==="moderate"?"Старт 15–20ккал/кг. Контроль электролитов ежедневно. Тиамин 100мг.":"Стандартный протокол наращивания ЭП.";
-  return `<div class="hdr" style="background:linear-gradient(135deg,#991B1B,#7F1D1D)"><h2>🛡️ Скрининг Refeeding Syndrome</h2><p>Критерии NICE (2006, обновл. 2017)</p></div>
-    <div class="card card-body"><div class="grid grid-3">
-      ${field("ИМТ","rfBmi",{min:10,max:50,step:0.1})}
-      ${field("Потеря веса (%)","rfLoss",{min:0,max:50})}
-      ${field("Голодание (дней)","rfStarve",{min:0,max:30})}
+  return `<div class="hdr" style="background:linear-gradient(135deg,#DC2626,#EA580C,#D97706)"><h2>🛡️ Скрининг Refeeding Syndrome</h2><p>Критерии NICE (2006, обновл. 2017)</p></div>
+    <div class="card card-body">
+      <div class="section-title">📋 Антропометрия и история</div>
+      <div class="grid grid-3">
+        ${field("ИМТ","rfBmi",{min:10,max:50,step:0.1})}
+        ${field("Потеря веса %","rfLoss",{min:0,max:50})}
+        ${field("Голодание дней","rfStarve",{min:0,max:30})}
+      </div>
+      <div style="margin-top:12px"><div class="section-title">⚡ Факторы риска</div>
+      <div class="checkbox-row">
+        <label><input type="checkbox" ${S.rfK?'checked':''} onchange="S.rfK=this.checked;render()">K⁺ ↓</label>
+        <label><input type="checkbox" ${S.rfMg?'checked':''} onchange="S.rfMg=this.checked;render()">Mg²⁺ ↓</label>
+        <label><input type="checkbox" ${S.rfPo?'checked':''} onchange="S.rfPo=this.checked;render()">PO₄ ↓</label>
+        <label><input type="checkbox" ${S.rfAlc?'checked':''} onchange="S.rfAlc=this.checked;render()">🍺 Алкоголь</label>
+        <label><input type="checkbox" ${S.rfChemo?'checked':''} onchange="S.rfChemo=this.checked;render()">💊 Химиотерапия</label>
+      </div></div>
     </div>
-    <div class="checkbox-row">
-      <label><input type="checkbox" ${S.rfK?'checked':''} onchange="S.rfK=this.checked;render()">K⁺ ↓</label>
-      <label><input type="checkbox" ${S.rfMg?'checked':''} onchange="S.rfMg=this.checked;render()">Mg²⁺ ↓</label>
-      <label><input type="checkbox" ${S.rfPo?'checked':''} onchange="S.rfPo=this.checked;render()">PO₄ ↓</label>
-      <label><input type="checkbox" ${S.rfAlc?'checked':''} onchange="S.rfAlc=this.checked;render()">Алкоголь</label>
-      <label><input type="checkbox" ${S.rfChemo?'checked':''} onchange="S.rfChemo=this.checked;render()">Химиотерапия</label>
-    </div></div>
-    <div class="card card-body" style="border-top:3px solid ${rc}">
-      <div class="lbl">Риск Refeeding Syndrome</div>
-      <div style="font-size:28px;font-weight:800;color:${rc}">${rl}</div>
-      <div style="font-size:12px;color:var(--muted);margin-top:8px;line-height:1.6">${txt}</div>
+    <div class="card card-body" style="background:${rbg};border:2px solid ${rc}40">
+      <div style="font-size:12px;color:var(--muted);font-weight:700;margin-bottom:8px">РИСК REFEEDING SYNDROME</div>
+      <div style="font-size:36px;font-weight:900;color:${rc}">${rl}</div>
+      <div style="font-size:14px;color:${rc};margin-top:10px;font-weight:700;line-height:1.6">${txt}</div>
     </div>`;
 }
 
 function rDelivery(){
-  let route="",details=[],rc="var(--green)";
-  if(S.dlvGit==="no"){route="Полное ПП";rc="var(--purple)";details=["ПП через ЦВК","Пересмотр ЖКТ каждые 24ч","При восстановлении → ЭП"]}
-  else if(S.dlvTol==="no"){route="Постпилорич. ЭП ± ПП";rc="var(--yellow)";details=["Назоеюнальный зонд","Прокинетики","Если 48ч без эффекта → PN"]}
-  else if(S.dlvTarget==="no"){route="ЭП + suppl. ПП";rc="var(--cyan)";details=["ЭП в макс. объёме","PN на дефицит","Цель: 80–100% REE"]}
-  else{route="Полное ЭП";details=["ЭП >80% потребности","ПП не требуется"]}
-  const q=[{q:"1. ЖКТ функционирует?",k:"dlvGit"}];
-  if(S.dlvGit==="yes")q.push({q:"2. Переносимость ЭП? (ост.V<500мл)",k:"dlvTol"});
-  if(S.dlvGit==="yes"&&S.dlvTol==="yes")q.push({q:"3. Достигнута цель (>80% REE)?",k:"dlvTarget"});
-  return `<div class="hdr" style="background:linear-gradient(135deg,#0E7490,#155E75)"><h2>🔀 Путь доставки нутриентов</h2><p>ЭП vs ПП vs смешанное</p></div>
-    <div class="card card-body"><div class="section-title">Оценка</div>
-    ${q.map(x=>`<div style="margin-bottom:14px"><div style="font-size:13px;font-weight:500;margin-bottom:8px">${x.q}</div><div style="display:flex;gap:8px"><button class="btn-yes ${S[x.k]==='yes'?'sel':''}" onclick="S.${x.k}='yes';render()">Да</button><button class="btn-no ${S[x.k]==='no'?'sel':''}" onclick="S.${x.k}='no';render()">Нет</button></div></div>`).join('')}
+  let route="",details=[],rc="var(--green)",rbg="var(--green-bg)";
+  if(S.dlvGit==="no"){route="💉 Полное ПП";rc="var(--purple)";rbg="var(--purple-bg)";details=["ПП через ЦВК","Пересмотр ЖКТ каждые 24ч","При восстановлении → ЭП"]}
+  else if(S.dlvTol==="no"){route="🔀 Постпилорич. ЭП ± ПП";rc="var(--yellow)";rbg="var(--yellow-bg)";details=["Назоеюнальный зонд","Прокинетики","Если 48ч без эффекта → PN"]}
+  else if(S.dlvTarget==="no"){route="🥤+💉 ЭП + suppl. ПП";rc="var(--cyan)";rbg="var(--cyan-bg)";details=["ЭП в макс. объёме","PN на дефицит","Цель: 80–100% REE"]}
+  else{route="🥤 Полное ЭП";rbg="var(--green-bg)";details=["ЭП >80% потребности","ПП не требуется"]}
+  const q=[{q:"1️⃣ ЖКТ функционирует?",k:"dlvGit"}];
+  if(S.dlvGit==="yes")q.push({q:"2️⃣ Переносимость ЭП? (ост.V<500мл)",k:"dlvTol"});
+  if(S.dlvGit==="yes"&&S.dlvTol==="yes")q.push({q:"3️⃣ Достигнута цель (>80% REE)?",k:"dlvTarget"});
+  return `<div class="hdr" style="background:linear-gradient(135deg,#0891B2,#6366F1,#7C3AED)"><h2>🔀 Путь доставки нутриентов</h2><p>ЭП vs ПП vs смешанное · алгоритм</p></div>
+    <div class="card card-body">
+      <div class="section-title">🔍 Оценка пациента</div>
+      ${q.map(x=>`<div style="margin-bottom:16px;padding:14px;background:var(--bg);border-radius:12px;border:1.5px solid var(--border)"><div style="font-size:14px;font-weight:800;margin-bottom:10px;color:var(--text)">${x.q}</div><div style="display:flex;gap:10px"><button class="btn-yes ${S[x.k]==='yes'?'sel':''}" onclick="S.${x.k}='yes';render()">✅ Да</button><button class="btn-no ${S[x.k]==='no'?'sel':''}" onclick="S.${x.k}='no';render()">❌ Нет</button></div></div>`).join('')}
     </div>
-    <div class="card card-body" style="border-top:3px solid ${rc}">
-      <div class="lbl">Рекомендуемый путь</div>
-      <div style="font-size:22px;font-weight:800;color:${rc};margin-bottom:12px">${route}</div>
+    <div class="card card-body" style="background:${rbg};border:2px solid ${rc}40">
+      <div style="font-size:11px;color:var(--muted);font-weight:700;margin-bottom:6px">РЕКОМЕНДУЕМЫЙ ПУТЬ</div>
+      <div style="font-size:24px;font-weight:900;color:${rc};margin-bottom:14px">${route}</div>
       ${details.map(d=>`<div class="tactic">${d}</div>`).join('')}
     </div>`;
 }
 
 function rMixtures(){
-  const cats=[{id:"enteral",l:"ЭП ("+ENT.length+")"},{id:"parenteral",l:"ПП ("+PAR.length+")"},{id:"modular",l:"Модуль. ("+MODD.length+")"}];
+  const cats=[{id:"enteral",l:"🥤 ЭП ("+ENT.length+")"},{id:"parenteral",l:"💉 ПП ("+PAR.length+")"},{id:"modular",l:"🔬 Модуль. ("+MODD.length+")"}];
   const types=["all",...new Set(ENT.map(m=>m.t))];
   let items='';
   if(S.mixCat==="enteral"){
     const data=S.mixFil==="all"?ENT:ENT.filter(m=>m.t===S.mixFil);
-    items=`<div style="display:flex;gap:4px;flex-wrap:wrap;margin-bottom:10px">${types.map(t=>`<button class="chip ${S.mixFil===t?'on':'off'}" onclick="S.mixFil='${t}';render()">${t==='all'?'Все':t}</button>`).join('')}</div>`+data.map(m=>`<div class="card mix-card"><div style="display:flex;justify-content:space-between;margin-bottom:6px"><div><span style="font-weight:700">${m.n}</span><span class="brand">${m.b}</span></div><span class="tag" style="background:var(--cyan)22;color:var(--cyan)">${m.t}</span></div><div class="mix-stats">${[{l:"ккал/мл",v:m.k},{l:"белок",v:m.p},{l:"жиры",v:m.f},{l:"углев.",v:m.c},{l:"мОсм",v:m.o}].map(x=>`<div class="mix-stat"><div class="v">${x.v}</div><div class="l">${x.l}</div></div>`).join('')}</div><div class="indication">${m.i}</div></div>`).join('');
+    items=`<div style="display:flex;gap:4px;flex-wrap:wrap;margin-bottom:12px">${types.map(t=>`<button class="chip ${S.mixFil===t?'on':'off'}" onclick="S.mixFil='${t}';render()">${t==='all'?'🔍 Все':t}</button>`).join('')}</div>`+data.map(m=>`<div class="card mix-card"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px"><div><span style="font-weight:800;font-size:14px">${m.n}</span><span class="brand">${m.b}</span></div><span class="tag" style="background:#ECFEFF;color:var(--cyan)">${m.t}</span></div><div class="mix-stats">${[{l:"ккал/мл",v:m.k},{l:"белок",v:m.p},{l:"жиры",v:m.f},{l:"углев.",v:m.c},{l:"мОсм",v:m.o}].map(x=>`<div class="mix-stat"><div class="v">${x.v}</div><div class="l">${x.l}</div></div>`).join('')}</div><div class="indication">${m.i}</div></div>`).join('');
   } else if(S.mixCat==="parenteral"){
-    items=PAR.map(m=>`<div class="card mix-card"><div style="display:flex;justify-content:space-between;margin-bottom:6px"><div><span style="font-weight:700">${m.n}</span><span class="brand">${m.b}</span></div><span class="tag" style="background:var(--purple)22;color:var(--purple)">ПП</span></div><div class="mix-stats" style="grid-template-columns:repeat(4,1fr)">${[{l:"мл",v:m.v},{l:"ккал",v:m.k},{l:"белок",v:m.p},{l:"мОсм",v:m.o}].map(x=>`<div class="mix-stat"><div class="v">${x.v}</div><div class="l">${x.l}</div></div>`).join('')}</div><div style="font-size:11.5px"><b>АК:</b> ${m.aa} · <b>Липиды:</b> ${m.lip} · <b>Глюкоза:</b> ${m.gl}</div><div class="indication" style="margin-top:6px">${m.i}</div></div>`).join('');
+    items=PAR.map(m=>`<div class="card mix-card"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px"><div><span style="font-weight:800;font-size:14px">${m.n}</span><span class="brand">${m.b}</span></div><span class="tag" style="background:var(--purple-bg);color:var(--purple)">ПП</span></div><div class="mix-stats" style="grid-template-columns:repeat(4,1fr)">${[{l:"мл",v:m.v},{l:"ккал",v:m.k},{l:"белок г",v:m.p},{l:"мОсм",v:m.o}].map(x=>`<div class="mix-stat"><div class="v">${x.v}</div><div class="l">${x.l}</div></div>`).join('')}</div><div style="font-size:12px;font-weight:700;margin-bottom:6px">АК: ${m.aa} · Липиды: ${m.lip} · Глюкоза: ${m.gl}</div><div class="indication">${m.i}</div></div>`).join('');
   } else {
-    items=MODD.map(m=>`<div class="card mix-card"><div style="display:flex;justify-content:space-between;margin-bottom:6px"><div><span style="font-weight:700">${m.n}</span><span class="brand">${m.b}</span></div><span class="tag" style="background:var(--green)22;color:var(--green)">${m.tp}</span></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:6px"><div><span style="font-size:11px;color:var(--muted)">Состав: </span><span style="font-weight:500">${m.ct}</span></div><div><span style="font-size:11px;color:var(--muted)">Ккал: </span><span style="font-weight:700;font-family:var(--mono)">${m.k}</span></div></div><div class="indication">${m.i}</div><div style="font-size:11.5px;color:var(--green);margin-top:4px;font-weight:500">Дозировка: ${m.d}</div></div>`).join('');
+    items=MODD.map(m=>`<div class="card mix-card"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px"><div><span style="font-weight:800;font-size:14px">${m.n}</span><span class="brand">${m.b}</span></div><span class="tag" style="background:var(--green-bg);color:var(--green)">${m.tp}</span></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:6px"><div style="font-size:12px;font-weight:600"><span style="color:var(--muted)">Состав: </span>${m.ct}</div><div style="font-size:12px;font-weight:600"><span style="color:var(--muted)">Ккал: </span><b style="font-family:var(--mono)">${m.k}</b></div></div><div class="indication">${m.i}</div><div style="font-size:12px;color:var(--green);margin-top:6px;font-weight:800">💊 Дозировка: ${m.d}</div></div>`).join('');
   }
-  return `<div class="hdr" style="background:linear-gradient(135deg,#0369A1,#0C4A6E)"><h2>🧪 Смеси и растворы</h2><p>${ENT.length} ЭП + ${PAR.length} ПП + ${MODD.length} модульных</p></div>
-    <div style="display:flex;gap:8px;margin-bottom:12px">${cats.map(c=>`<button class="btn ${S.mixCat===c.id?'btn-outline active':'btn-outline'}" onclick="S.mixCat='${c.id}';S.mixFil='all';render()" style="flex:1">${c.l}</button>`).join('')}</div>${items}`;
+  return `<div class="hdr" style="background:linear-gradient(135deg,#0369A1,#6366F1)"><h2>🧪 Смеси и растворы</h2><p>${ENT.length} ЭП + ${PAR.length} ПП + ${MODD.length} модульных</p></div>
+    <div style="display:flex;gap:8px;margin-bottom:14px">${cats.map(c=>`<button class="btn ${S.mixCat===c.id?'btn-primary':'btn-outline'}" onclick="S.mixCat='${c.id}';S.mixFil='all';render()" style="flex:1">${c.l}</button>`).join('')}</div>${items}`;
 }
 
 function rMonitoring(){
   const d=S.monDays;
   const nBal=(pr,urea)=>{const nIn=pr/6.25;const nOut=urea*0.466+4;return Math.round((nIn-nOut)*10)/10};
-  return `<div class="hdr" style="background:linear-gradient(135deg,#B45309,#78350F)"><h2>📊 Мониторинг</h2><p>REE, RQ, покрытие, азотистый баланс</p></div>
-    <div class="card" style="overflow-x:auto"><table><thead><tr>${["Д","REE","RQ","Дост.","Белок","Моч.","N-бал","%","Прим."].map(h=>`<th>${h}</th>`).join('')}</tr></thead>
+  return `<div class="hdr" style="background:linear-gradient(135deg,#D97706,#059669,#0891B2)"><h2>📊 Мониторинг нутритивной поддержки</h2><p>REE, RQ, покрытие, азотистый баланс</p></div>
+    <div class="card" style="overflow-x:auto"><table><thead><tr>${["📅 День","REE","RQ","Дост.","Белок г","Моч.","N-бал","%","Примечание"].map(h=>`<th>${h}</th>`).join('')}</tr></thead>
     <tbody>${d.map((r,i)=>{const pct=Math.round((r.del/r.ree)*100);const pc=pct>=80?'var(--green)':pct>=60?'var(--yellow)':'var(--red)';const nb=nBal(r.pr,r.urea);const nc=nb>=0?'var(--green)':'var(--red)';
-    return `<tr><td style="text-align:center;font-weight:700;font-family:var(--mono)">${r.d}</td>
+    return `<tr style="background:${i%2?'var(--bg)':'#fff'}"><td style="text-align:center;font-weight:900;font-family:var(--mono);color:var(--accent)">${r.d}</td>
     <td><input type="number" value="${r.ree}" onchange="S.monDays[${i}].ree=+this.value;render()"></td>
     <td><input type="number" value="${r.rq}" step="0.01" onchange="S.monDays[${i}].rq=+this.value;render()"></td>
     <td><input type="number" value="${r.del}" onchange="S.monDays[${i}].del=+this.value;render()"></td>
     <td><input type="number" value="${r.pr}" onchange="S.monDays[${i}].pr=+this.value;render()"></td>
     <td><input type="number" value="${r.urea}" onchange="S.monDays[${i}].urea=+this.value;render()"></td>
-    <td style="text-align:center"><span style="color:${nc};font-weight:700;font-family:var(--mono)">${nb>0?'+':''}${nb}</span></td>
-    <td style="text-align:center"><span style="color:${pc};font-weight:700">${pct}%</span></td>
+    <td style="text-align:center"><span style="color:${nc};font-weight:900;font-family:var(--mono);font-size:14px">${nb>0?'+':''}${nb}</span></td>
+    <td style="text-align:center"><span style="color:${pc};font-weight:900;font-size:14px">${pct}%</span></td>
     <td><input type="text" value="${r.no}" onchange="S.monDays[${i}].no=this.value;render()"></td></tr>`}).join('')}</tbody></table></div>
-    <button class="btn-ghost" onclick="const l=S.monDays[S.monDays.length-1];S.monDays.push({d:l.d+1,ree:l.ree,rq:l.rq,del:l.del,pr:l.pr,urea:l.urea,no:''});render()">+ Добавить день</button>
+    <button class="btn-ghost" onclick="const l=S.monDays[S.monDays.length-1];S.monDays.push({d:l.d+1,ree:l.ree,rq:l.rq,del:l.del,pr:l.pr,urea:l.urea,no:''});render()">➕ Добавить день</button>
     <div class="grid grid-4" style="margin-top:12px">
-      ${metric("Ср.REE",Math.round(d.reduce((s,r)=>s+r.ree,0)/d.length),"var(--accent)")}
-      ${metric("Ср.RQ",(d.reduce((s,r)=>s+r.rq,0)/d.length).toFixed(2),"var(--purple)")}
-      ${metric("Покрытие",Math.round(d.reduce((s,r)=>s+(r.del/r.ree)*100,0)/d.length)+"%","var(--green)")}
-      ${metric("Ср.N-бал",(d.reduce((s,r)=>s+nBal(r.pr,r.urea),0)/d.length).toFixed(1),"var(--yellow)")}
+      ${metric("📉 Ср.REE",Math.round(d.reduce((s,r)=>s+r.ree,0)/d.length)+" ккал","#6366F1","#EEF2FF")}
+      ${metric("🌬️ Ср.RQ",(d.reduce((s,r)=>s+r.rq,0)/d.length).toFixed(2),"#7C3AED","#F5F3FF")}
+      ${metric("✅ Покрытие",Math.round(d.reduce((s,r)=>s+(r.del/r.ree)*100,0)/d.length)+"%","#059669","#ECFDF5")}
+      ${metric("⚖️ Ср.N-бал",(d.reduce((s,r)=>s+nBal(r.pr,r.urea),0)/d.length).toFixed(1),"#D97706","#FFFBEB")}
     </div>
-    <div class="card card-body" style="margin-top:8px"><div style="font-size:12px;color:var(--muted);line-height:1.6"><b>N-баланс</b> = N_in(белок/6.25) − N_out(мочевина×0.466+4). Цель: +2…+4 г/сут.</div></div>`;
+    <div class="card card-body" style="background:#EEF2FF;border:2px solid #C7D2FE;margin-top:8px"><div style="font-size:13px;color:#3730A3;line-height:1.6;font-weight:700">💡 <b>N-баланс</b> = N_in(белок/6.25) − N_out(мочевина×0.466+4). Цель: +2…+4 г/сут.</div></div>`;
 }
 
 function rComplications(){
-  const ep=[{n:"Высокий ост. объём",s:"warning",a:["↓ скорость на 50%","Прокинетики","Головной конец 30–45°","48ч → постпилорический доступ"]},
-    {n:"Диарея",s:"warning",a:["Исключить C.difficile!","↓ скорость","Пептамен / с клетчаткой","Не прекращать ЭП!"]},
-    {n:"Аспирация",s:"danger",a:["СТОП ЭП","Санация ТБД","Головной конец 45°","Постпилорический зонд"]},
-    {n:"Гипергликемия",s:"warning",a:["Диазон","Инсулин: 6–10 ммоль/л","↓ глюкозу в/в"]},
-    {n:"Refeeding",s:"danger",a:["↓↓ калорийность","K,Mg,PO₄ каждые 6–12ч","Тиамин 200–300мг в/в!","10ккал/кг → +33%/сут"]}];
-  const pp=[{n:"Катетерная инфекция",s:"danger",a:["Посев крови","Эмпирическая АБТ","Рассмотреть удаление катетера"]},
-    {n:"Гипертриглицеридемия",s:"warning",a:["↓ скорость липидов",">12 → СТОП липиды","СМОФлипид"]},
-    {n:"Холестаз",s:"warning",a:["↓ липиды до 1 г/кг","СМОФлипид/Омегавен","Циклическое ПП"]},
-    {n:"Гипергликемия на ПП",s:"warning",a:["↓ глюкозу (max 4–5 г/кг/сут)","Инсулин в/в"]},
-    {n:"Перегрузка жидкостью",s:"warning",a:["Концентрированные р-ры","↑ ЭП, ↓ ПП"]}];
+  const ep=[{n:"🔺 Высокий ост. объём",s:"warning",a:["↓ скорость на 50%","Прокинетики","Головной конец 30–45°","48ч → постпилорический доступ"]},
+    {n:"🌊 Диарея",s:"warning",a:["Исключить C.difficile!","↓ скорость","Пептамен / с клетчаткой","Не прекращать ЭП!"]},
+    {n:"⚠️ Аспирация",s:"danger",a:["СТОП ЭП","Санация ТБД","Головной конец 45°","Постпилорический зонд"]},
+    {n:"📈 Гипергликемия",s:"warning",a:["Диазон","Инсулин: 6–10 ммоль/л","↓ глюкозу в/в"]},
+    {n:"🚨 Refeeding",s:"danger",a:["↓↓ калорийность","K,Mg,PO₄ каждые 6–12ч","Тиамин 200–300мг в/в!","10ккал/кг → +33%/сут"]}];
+  const pp=[{n:"🦠 Катетерная инфекция",s:"danger",a:["Посев крови","Эмпирическая АБТ","Рассмотреть удаление катетера"]},
+    {n:"🫙 Гипертриглицеридемия",s:"warning",a:["↓ скорость липидов",">12 → СТОП липиды","СМОФлипид"]},
+    {n:"🏥 Холестаз",s:"warning",a:["↓ липиды до 1 г/кг","СМОФлипид/Омегавен","Циклическое ПП"]},
+    {n:"📈 Гипергликемия на ПП",s:"warning",a:["↓ глюкозу (max 4–5 г/кг/сут)","Инсулин в/в"]},
+    {n:"💧 Перегрузка жидкостью",s:"warning",a:["Концентрированные р-ры","↑ ЭП, ↓ ПП"]}];
   const data=S.complView==="ep"?ep:pp;
-  return `<div class="hdr" style="background:linear-gradient(135deg,#991B1B,#7F1D1D)"><h2>⚠️ Осложнения НП</h2><p>Алгоритмы действий</p></div>
-    <div style="display:flex;gap:8px;margin-bottom:12px">${[{id:"ep",l:"Осложнения ЭП"},{id:"pp",l:"Осложнения ПП"}].map(c=>`<button class="btn ${S.complView===c.id?'btn-outline active':'btn-outline'}" onclick="S.complView='${c.id}';render()" style="flex:1">${c.l}</button>`).join('')}</div>
-    ${data.map(c=>`<div class="card compl-card" style="border-top:3px solid ${c.s==='danger'?'var(--red)':'var(--yellow)'}"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px"><h4>${c.n}</h4><span class="tag" style="background:${c.s==='danger'?'var(--red)':'var(--yellow)'}22;color:${c.s==='danger'?'var(--red)':'var(--yellow)'}">${c.s==='danger'?'Критическое':'Внимание'}</span></div>${c.a.map((a,j)=>`<div class="step"><span class="num" style="color:${c.s==='danger'?'var(--red)':'var(--yellow)'}">${j+1}.</span>${a}</div>`).join('')}</div>`).join('')}`;
+  return `<div class="hdr" style="background:linear-gradient(135deg,#DC2626,#EA580C)"><h2>⚠️ Осложнения НП</h2><p>Алгоритмы действий при осложнениях</p></div>
+    <div style="display:flex;gap:8px;margin-bottom:14px">${[{id:"ep",l:"🥤 Осложнения ЭП"},{id:"pp",l:"💉 Осложнения ПП"}].map(c=>`<button class="btn ${S.complView===c.id?'btn-primary':'btn-outline'}" onclick="S.complView='${c.id}';render()" style="flex:1">${c.l}</button>`).join('')}</div>
+    ${data.map(c=>`<div class="card compl-card" style="border-left:5px solid ${c.s==='danger'?'var(--red)':'var(--yellow)'};background:${c.s==='danger'?'#FFF5F5':'#FFFDF0'}"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px"><h4>${c.n}</h4><span class="tag" style="background:${c.s==='danger'?'#FEE2E2':'#FEF3C7'};color:${c.s==='danger'?'var(--red)':'var(--yellow)'}">${c.s==='danger'?'🚨 Критическое':'⚠️ Внимание'}</span></div>${c.a.map((a,j)=>`<div class="step"><span class="num" style="color:${c.s==='danger'?'var(--red)':'var(--yellow)'}">${j+1}.</span>${a}</div>`).join('')}</div>`).join('')}`;
 }
 
 function rReference(){
   const sec=[
-    {t:"RQ",it:[{l:"<0.70",d:"Кетогенез"},{l:"0.70–0.85",d:"Смешанное (норма)"},{l:"0.85–1.0",d:"Углеводы"},{l:">1.0",d:"Липогенез!"}]},
-    {t:"MI",it:[{l:"<0.9",d:"Гипометаболизм"},{l:"0.9–1.1",d:"Нормо"},{l:"1.1–1.3",d:"Гипер"},{l:">1.3",d:"Выраж.гипер"}]},
-    {t:"Лактат",it:[{l:"<2",d:"Норма"},{l:"2–4",d:"Гипоперфузия"},{l:">4",d:"Тяжёлая гипоксия!"}]},
-    {t:"Фазы",it:[{l:"Ebb (0–48ч)",d:"Гипометаб., трофич. ЭП ≤70% REE"},{l:"Flow (>48ч)",d:"Гиперметаб., до 100% REE"}]},
-    {t:"ИМТ-коррекция",it:[{l:"ИМТ<30",d:"По фактическому весу"},{l:"ИМТ 30–50",d:"Энергия по скорр., белок по идеальному"},{l:"ИМТ>50",d:"По идеальному весу"}]},
-    {t:"N-баланс",it:[{l:"Формула",d:"N_in − N_out(моч×0.466+4)"},{l:"Цель",d:"+2…+4 г/сут"},{l:"Отрицат.",d:"↑ белковую дотацию"}]},
-    {t:"ESPEN/ASPEN",it:[{l:"ЭП",d:"24–48ч, старт"},{l:"Белок",d:"≥1.3 г/кг"},{l:"ПП",d:"Не ранее 3–7 дня"},{l:"Глутамин",d:"0.3–0.5г/кг (не при ПОН!)"},{l:"ω-3",d:"При ОРДС, сепсисе"}]},
-    {t:"Источники",it:[{l:"ESPEN 2019",d:"Singer et al. Clin Nutr"},{l:"ESPEN 2023",d:"Update"},{l:"ASPEN 2022",d:"Compher et al. JPEN"},{l:"EFFORT",d:"Heyland, Lancet 2023"},{l:"NICE 2006",d:"Refeeding guidelines"}]}
+    {t:"🌬️ RQ — интерпретация",it:[{l:"<0.70",d:"Кетогенез"},{l:"0.70–0.85",d:"Смешанное (норма)"},{l:"0.85–1.0",d:"Углеводы"},{l:">1.0",d:"Липогенез!"}]},
+    {t:"📊 MI — метаболич. индекс",it:[{l:"<0.9",d:"Гипометаболизм"},{l:"0.9–1.1",d:"Нормо"},{l:"1.1–1.3",d:"Гипер"},{l:">1.3",d:"Выраж.гипер"}]},
+    {t:"🩸 Лактат",it:[{l:"<2",d:"Норма"},{l:"2–4",d:"Гипоперфузия"},{l:">4",d:"Тяжёлая гипоксия!"}]},
+    {t:"⏱️ Фазы критического состояния",it:[{l:"Ebb (0–48ч)",d:"Гипометаб., трофич. ЭП ≤70% REE"},{l:"Flow (>48ч)",d:"Гиперметаб., до 100% REE"}]},
+    {t:"⚖️ ИМТ-коррекция веса",it:[{l:"ИМТ<30",d:"По фактическому весу"},{l:"ИМТ 30–50",d:"Энергия по скорр., белок по идеальному"},{l:"ИМТ>50",d:"По идеальному весу"}]},
+    {t:"🧪 N-баланс",it:[{l:"Формула",d:"N_in − N_out(моч×0.466+4)"},{l:"Цель",d:"+2…+4 г/сут"},{l:"Отрицат.",d:"↑ белковую дотацию"}]},
+    {t:"📚 ESPEN/ASPEN рекомендации",it:[{l:"ЭП",d:"24–48ч, старт"},{l:"Белок",d:"≥1.3 г/кг"},{l:"ПП",d:"Не ранее 3–7 дня"},{l:"Глутамин",d:"0.3–0.5г/кг (не при ПОН!)"},{l:"ω-3",d:"При ОРДС, сепсисе"}]},
+    {t:"📖 Источники",it:[{l:"ESPEN 2019",d:"Singer et al. Clin Nutr"},{l:"ESPEN 2023",d:"Update"},{l:"ASPEN 2022",d:"Compher et al. JPEN"},{l:"EFFORT",d:"Heyland, Lancet 2023"},{l:"NICE 2006",d:"Refeeding guidelines"}]}
   ];
-  return `<div class="hdr" style="background:linear-gradient(135deg,#4338CA,#312E81)"><h2>📖 Справочник</h2><p>Ключевые данные</p></div>
-    ${sec.map(s=>`<div class="card card-body"><div style="font-size:13px;font-weight:700;margin-bottom:8px">${s.t}</div>${s.it.map((x,i)=>`<div style="display:flex;gap:12px;padding:6px 0;${i<s.it.length-1?'border-bottom:1px solid var(--border)':''}"><div style="font-weight:700;color:var(--accent2);min-width:80px;font-size:12.5px;font-family:var(--mono)">${x.l}</div><div style="font-size:12.5px;color:var(--muted)">${x.d}</div></div>`).join('')}</div>`).join('')}`;
+  const colors=["#6366F1","#0891B2","#DC2626","#D97706","#059669","#7C3AED","#0369A1","#64748B"];
+  return `<div class="hdr" style="background:linear-gradient(135deg,#4338CA,#6366F1,#8B5CF6)"><h2>📖 Справочник</h2><p>Ключевые данные и нормативы</p></div>
+    ${sec.map((s,si)=>`<div class="card card-body" style="border-left:4px solid ${colors[si]}"><div style="font-size:14px;font-weight:900;margin-bottom:10px;color:${colors[si]}">${s.t}</div>${s.it.map((x,i)=>`<div style="display:flex;gap:12px;padding:8px 0;${i<s.it.length-1?'border-bottom:1px solid var(--border)':''}"><div style="font-weight:800;color:${colors[si]};min-width:80px;font-size:12px;font-family:var(--mono)">${x.l}</div><div style="font-size:13px;color:var(--text);font-weight:600">${x.d}</div></div>`).join('')}</div>`).join('')}`;
 }
 
 render();
