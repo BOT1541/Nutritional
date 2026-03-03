@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>NutriCritical — Нутритивная поддержка в ОРИТ</title>
+<title>NutriCritical LIGHT — Нутритивная поддержка в ОРИТ</title>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
@@ -174,8 +174,6 @@ td input{width:100%;background:var(--card2);border:1.5px solid var(--border);bor
 </head>
 <body>
 
-<div class="link-bar"><a href="index.html">← Справочник антибиотиков</a></div>
-
 <div class="header">
   <h1>🏥 NutriCritical <span>v3.0</span></h1>
   <p>Нутритивная поддержка в ОРИТ · Метаболическое фенотипирование · 8 модулей</p>
@@ -185,15 +183,16 @@ td input{width:100%;background:var(--card2);border:1.5px solid var(--border);bor
 <div class="main" id="app"></div>
 
 <div class="footer">
-  <p>ESPEN 2019/2023 · ASPEN 2022 · NICE 2006 · Авторская классификация MI×RQ · Не заменяет клиническое суждение</p>
-</div>
+  <p>Не заменяет клинического мышления</p>
+  <p style="margin-top:5px">Разработчик: Сластников Евгений Дмитриевич</p>
+  <p style="margin-top:3px">TG: <a href="https://t.me/eve6383" style="color:var(--accent);text-decoration:none;font-weight:700">@eve6383</a></p></div>
 
 <script>
 const TABS=[
   {id:"phenotype",l:"🧬 Фенотипы"},
   {id:"calculator",l:"🔢 Калькулятор"},{id:"refeeding",l:"🛡️ Refeeding"},{id:"delivery",l:"🔀 Доставка"},
-  {id:"mixtures",l:"🧪 Смеси"},{id:"monitoring",l:"📊 Мониторинг"},
-  {id:"complications",l:"⚠️ Осложнения"},{id:"reference",l:"📖 Справочник"}
+  {id:"mixtures",l:"🧪 Смеси"},
+  {id:"complications",l:"⚠️ Осложнения"}
 ];
 
 const ENT=[
@@ -279,7 +278,7 @@ function render(){
   const nav=document.getElementById('nav');
   nav.innerHTML=TABS.map(t=>`<button class="${S.tab===t.id?'active':''}" onclick="S.tab='${t.id}';render()">${t.l}</button>`).join('');
   const app=document.getElementById('app');
-  const fn={phenotype:rPhenotype,calculator:rCalculator,refeeding:rRefeeding,delivery:rDelivery,mixtures:rMixtures,monitoring:rMonitoring,complications:rComplications,reference:rReference};
+  const fn={phenotype:rPhenotype,calculator:rCalculator,refeeding:rRefeeding,delivery:rDelivery,mixtures:rMixtures,complications:rComplications};
   app.innerHTML=fn[S.tab]();
 }
 
@@ -320,7 +319,7 @@ function rPhenotype(){
         <span style="background:var(--bg);padding:6px 12px;border-radius:10px;font-size:13px;font-weight:700">ИМТ: <b style="color:${ob?'var(--red)':'var(--green)'}">${bv.toFixed(1)}</b></span>
         <span style="background:var(--bg);padding:6px 12px;border-radius:10px;font-size:13px;font-weight:700">Ид.вес: <b>${iw}кг</b></span>
         ${ob?`<span style="background:var(--bg);padding:6px 12px;border-radius:10px;font-size:13px;font-weight:700">Скорр.: <b>${cw}кг</b></span>`:''}
-        <span style="background:${S.day<=2?var(--cyan-bg):'#FFFBEB'};padding:6px 12px;border-radius:10px;font-size:13px;font-weight:700;color:${S.day<=2?'var(--cyan)':'var(--yellow)'}">Фаза: <b>${S.day<=2?'⬇️ Ebb':'⬆️ Flow'}</b></span>
+        <span style="background:${S.day<=2?'var(--cyan-bg)':'#FFFBEB'};padding:6px 12px;border-radius:10px;font-size:13px;font-weight:700;color:${S.day<=2?'var(--cyan)':'var(--yellow)'}">Фаза: <b>${S.day<=2?'⬇️ Ebb':'⬆️ Flow'}</b></span>
       </div>
     </div>
     <div class="card card-body">
