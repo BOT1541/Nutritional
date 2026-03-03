@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NutriCritical — Нутритивная поддержка в ОРИТ</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0B0F19;--card:#131825;--card2:#1A2035;--border:#1E2A45;--text:#E2E8F0;--muted:#64748B;--accent:#6366F1;--accent2:#818CF8;--green:#10B981;--red:#EF4444;--yellow:#F59E0B;--cyan:#06B6D4;--purple:#A78BFA;--font:'Outfit',sans-serif;--mono:'JetBrains Mono',monospace}
+body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:100vh;-webkit-font-smoothing:antialiased}
+.header{background:linear-gradient(135deg,#0F172A 0%,#1E1B4B 50%,#312E81 100%);padding:20px 24px;border-bottom:2px solid var(--accent)}
+.header h1{font-size:24px;font-weight:800;letter-spacing:-0.5px}
+.header h1 span{font-size:11px;font-weight:500;background:rgba(99,102,241,0.2);color:var(--accent2);padding:2px 10px;border-radius:20px;margin-left:8px;vertical-align:middle}
+.header p{font-size:12px;color:var(--muted);font-family:var(--mono);margin-top:4px}
+.nav{background:var(--card);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:50;overflow-x:auto;white-space:nowrap;-webkit-overflow-scrolling:touch}
+.nav::-webkit-scrollbar{height:0}
+.nav button{background:none;border:none;color:var(--muted);padding:12px 14px;font-size:12px;font-weight:500;cursor:pointer;font-family:var(--font);border-bottom:2px solid transparent;transition:all .15s}
+.nav button:hover{color:var(--text)}
+.nav button.active{color:var(--accent2);border-bottom-color:var(--accent);background:rgba(99,102,241,0.06)}
+.main{max-width:960px;margin:0 auto;padding:16px 12px 60px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:12px}
+.card-accent{border-top:3px solid var(--accent)}
+.card-body{padding:16px 20px}
+.section-title{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:1.5px;color:var(--accent2);margin-bottom:12px}
+.hdr{background:linear-gradient(135deg,#1E1B4B,#312E81);border-radius:14px;padding:20px 24px;margin-bottom:16px}
+.hdr h2{font-size:20px;font-weight:700}
+.hdr p{font-size:12px;color:rgba(255,255,255,0.5);margin-top:4px}
+.grid{display:grid;gap:10px}
+.grid-2{grid-template-columns:1fr 1fr}
+.grid-3{grid-template-columns:1fr 1fr 1fr}
+.grid-4{grid-template-columns:1fr 1fr 1fr 1fr}
+.grid-auto{grid-template-columns:repeat(auto-fill,minmax(110px,1fr))}
+@media(max-width:600px){.grid-2,.grid-3,.grid-4{grid-template-columns:1fr 1fr}.grid-auto{grid-template-columns:1fr 1fr}}
+label.field{display:flex;flex-direction:column;gap:4px}
+label.field span{font-size:11px;color:var(--muted);font-weight:500}
+input[type="number"],select{width:100%;padding:8px 10px;border-radius:8px;border:1.5px solid var(--border);background:var(--card2);color:var(--text);font-size:14px;font-family:var(--mono);outline:none;transition:border-color .15s}
+input:focus,select:focus{border-color:var(--accent)}
+.tag{display:inline-block;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600}
+.metric{text-align:center;padding:12px}
+.metric .val{font-size:24px;font-weight:800;font-family:var(--mono)}
+.metric .lbl{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
+.gauge{height:6px;border-radius:3px;background:#1E293B;position:relative;margin-top:10px;overflow:hidden}
+.gauge-fill{position:absolute;left:0;top:0;height:100%;border-radius:3px;transition:width .3s}
+.alert{border-radius:10px;padding:10px 14px;display:flex;gap:8px;align-items:flex-start;font-size:12.5px;line-height:1.5;margin-bottom:6px}
+.alert-danger{background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.25);color:#FCA5A5}
+.alert-warning{background:rgba(245,158,11,0.1);border:1px solid rgba(245,158,11,0.25);color:#FDE68A}
+.alert-info{background:rgba(99,102,241,0.1);border:1px solid rgba(99,102,241,0.25);color:#C7D2FE}
+.tactic{font-size:12.5px;color:var(--text);line-height:1.6;padding-left:16px;position:relative;margin-bottom:3px}
+.tactic::before{content:'→';position:absolute;left:0;color:var(--accent2)}
+.btn{padding:8px 16px;border-radius:8px;border:none;cursor:pointer;font-size:13px;font-weight:600;font-family:var(--font);transition:all .15s}
+.btn-primary{background:var(--accent);color:#fff}
+.btn-outline{background:none;border:2px solid var(--border);color:var(--muted)}
+.btn-outline.active{border-color:var(--accent);color:var(--accent2);background:rgba(99,102,241,0.08)}
+.btn-ghost{background:none;border:2px dashed var(--border);color:var(--muted);width:100%;padding:10px}
+.btn-yes,.btn-no{padding:8px 20px;border-radius:8px;border:2px solid var(--border);background:var(--card2);color:var(--muted);font-size:13px;font-weight:600;cursor:pointer}
+.btn-yes.sel{border-color:var(--green);color:var(--green);background:rgba(16,185,129,0.08)}
+.btn-no.sel{border-color:var(--red);color:var(--red);background:rgba(239,68,68,0.08)}
+table{width:100%;border-collapse:collapse;font-size:12px}
+th{background:var(--card2);color:var(--muted);padding:8px 6px;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.5px}
+td{padding:6px;border-bottom:1px solid var(--border)}
+td input{width:100%;background:var(--card2);border:1px solid var(--border);border-radius:5px;color:var(--text);padding:4px 6px;font-family:var(--mono);font-size:12px;text-align:center}
+.mix-card{padding:12px 16px}
+.mix-card h4{font-size:14px;font-weight:700}
+.mix-card .brand{font-size:11px;color:var(--muted);margin-left:8px}
+.mix-stats{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:8px 0}
+.mix-stat{text-align:center}
+.mix-stat .v{font-size:16px;font-weight:700;font-family:var(--mono)}
+.mix-stat .l{font-size:9px;color:var(--muted)}
+.indication{font-size:12px;color:var(--muted);background:var(--card2);border-radius:6px;padding:4px 8px}
+.compl-card{padding:16px}
+.compl-card h4{font-size:14px;font-weight:700;margin-bottom:10px}
+.step{font-size:12.5px;color:var(--text);line-height:1.7;padding-left:20px;position:relative}
+.step .num{position:absolute;left:0;font-weight:700;font-family:var(--mono)}
+.matrix-table{font-size:10px;overflow-x:auto}
+.matrix-table table{min-width:600px}
+.matrix-table th{padding:6px 4px;min-width:70px}
+.matrix-table td{padding:6px 4px;text-align:center;white-space:pre-line;line-height:1.4}
+.matrix-opt{background:rgba(16,185,129,0.12)}
+.matrix-warn{background:rgba(245,158,11,0.1)}
+.matrix-danger{background:rgba(239,68,68,0.15);color:#FCA5A5;font-weight:700}
+.footer{background:var(--card);border-top:1px solid var(--border);padding:14px 20px;text-align:center}
+.footer p{font-size:10px;color:var(--muted);font-family:var(--mono)}
+.link-bar{background:var(--card2);border-bottom:1px solid var(--border);padding:8px 20px;text-align:center}
+.link-bar a{color:var(--accent2);font-size:12px;text-decoration:none;font-weight:500}
+.link-bar a:hover{text-decoration:underline}
+.hidden{display:none}
+.chip{display:inline-block;padding:3px 10px;border-radius:14px;font-size:11px;cursor:pointer;border:none;font-weight:500;margin:2px}
+.chip.on{background:var(--accent);color:#fff}
+.chip.off{background:var(--card2);color:var(--muted)}
+.rec-box{border-radius:10px;padding:14px}
+.rec-green{background:rgba(16,185,129,0.1)}
+.rec-purple{background:rgba(139,92,246,0.1)}
+.rec-yellow{background:rgba(245,158,11,0.1)}
+.rec-blue{background:rgba(59,130,246,0.1)}
+.rec-pink{background:rgba(168,85,247,0.1)}
+.checkbox-row{display:flex;gap:12px;flex-wrap:wrap;margin-top:10px}
+.checkbox-row label{display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer}
+.checkbox-row input[type="checkbox"]{width:16px;height:16px;accent-color:var(--accent)}
+</style>
+</head>
+<body>
+
+<div class="link-bar"><a href="index.html">← Справочник антибиотиков</a></div>
+
+<div class="header">
+  <h1>🏥 NutriCritical <span>v3.0</span></h1>
+  <p>Нутритивная поддержка в ОРИТ · Метаболическое фенотипирование · 10 модулей</p>
+</div>
+
+<div class="nav" id="nav"></div>
+<div class="main" id="app"></div>
+
+<div class="footer">
+  <p>ESPEN 2019/2023 · ASPEN 2022 · NICE 2006 · Авторская классификация MI×RQ · Не заменяет клиническое суждение</p>
+</div>
+
+<script>
+const TABS=[
+  {id:"phenotype",l:"🧬 Фенотипы"},{id:"matrix",l:"🗂️ Матрица"},{id:"infusion",l:"💉 Скорость"},
+  {id:"calculator",l:"🔢 Калькулятор"},{id:"refeeding",l:"🛡️ Refeeding"},{id:"delivery",l:"🔀 Доставка"},
+  {id:"mixtures",l:"🧪 Смеси"},{id:"monitoring",l:"📊 Мониторинг"},
+  {id:"complications",l:"⚠️ Осложнения"},{id:"reference",l:"📖 Справочник"}
+];
+
+const ENT=[
+  {n:"Нутризон Стандарт",k:1.0,p:4.0,f:3.9,c:12.3,o:260,t:"Полимерная",b:"Nutricia",i:"Старт"},
+  {n:"Нутризон Энергия",k:1.5,p:6.0,f:5.8,c:18.4,o:385,t:"Полимерная",b:"Nutricia",i:"Гиперметаболизм"},
+  {n:"Нутризон Протеин Интенс",k:1.28,p:7.5,f:4.9,c:14.4,o:340,t:"Полимерная",b:"Nutricia",i:"Высокий белок"},
+  {n:"Нутризон Диазон",k:1.0,p:4.3,f:4.2,c:11.7,o:295,t:"Специализир.",b:"Nutricia",i:"СД, высокий RQ"},
+  {n:"Диазон Энергия",k:1.5,p:6.0,f:6.6,c:17.1,o:380,t:"Специализир.",b:"Nutricia",i:"СД+↓объём"},
+  {n:"Нутризон Кубизон",k:1.0,p:5.5,f:3.3,c:12.3,o:310,t:"Специализир.",b:"Nutricia",i:"Раны"},
+  {n:"Пептамен",k:1.0,p:4.0,f:3.7,c:12.7,o:270,t:"Полуэлементная",b:"Nestlé",i:"Мальабсорбция"},
+  {n:"Пептамен AF",k:1.5,p:9.4,f:5.5,c:14.9,o:440,t:"Полуэлементная",b:"Nestlé",i:"ОРИТ, max белок"},
+  {n:"Пептамен Интенс",k:1.0,p:9.3,f:1.7,c:11.0,o:340,t:"Полуэлементная",b:"Nestlé",i:"Max белок"},
+  {n:"Импакт",k:1.0,p:5.6,f:2.8,c:13.4,o:306,t:"Иммунная",b:"Nestlé",i:"Иммуномодуляция"},
+  {n:"Фрезубин Оригинал",k:1.0,p:3.8,f:3.4,c:13.8,o:250,t:"Полимерная",b:"Fresenius",i:"Стандарт"},
+  {n:"Фрезубин Энергия",k:1.5,p:5.6,f:5.8,c:18.8,o:370,t:"Полимерная",b:"Fresenius",i:"Высококалорийное"},
+  {n:"Фрезубин Интенсив",k:1.22,p:10.0,f:3.9,c:12.0,o:390,t:"Полимерная",b:"Fresenius",i:"ОРИТ, max белок"},
+  {n:"Фрезубин Гепа",k:1.3,p:4.0,f:5.4,c:17.5,o:340,t:"Специализир.",b:"Fresenius",i:"Печень"},
+  {n:"Фрезубин Ренал",k:2.0,p:4.0,f:10.0,c:24.0,o:525,t:"Специализир.",b:"Fresenius",i:"Почки"},
+  {n:"Нутрикомп Стандарт",k:1.0,p:3.8,f:3.3,c:13.8,o:240,t:"Полимерная",b:"B.Braun",i:"Стандарт"},
+  {n:"Нутрикомп Диабет",k:1.0,p:4.1,f:4.5,c:11.2,o:270,t:"Специализир.",b:"B.Braun",i:"Гипергликемия"},
+  {n:"Нутрикомп Пептид",k:1.0,p:4.5,f:1.7,c:17.0,o:300,t:"Полуэлементная",b:"B.Braun",i:"Мальабсорбция"},
+  {n:"Суппортан",k:1.5,p:10.0,f:6.7,c:12.0,o:390,t:"Специализир.",b:"Fresenius",i:"Онкология"},
+];
+const PAR=[
+  {n:"Кабивен центр.",v:2053,k:1900,p:50,aa:"Вамин 18",lip:"Интралипид",gl:"19%",o:1060,b:"Fresenius",i:"Стандарт ЦВК"},
+  {n:"Кабивен периф.",v:1920,k:1400,p:40,aa:"Вамин 18",lip:"Интралипид",gl:"11%",o:750,b:"Fresenius",i:"Периферич."},
+  {n:"СМОФКабивен",v:1970,k:1800,p:50,aa:"Вамин 18",lip:"СМОФлипид",gl:"13%",o:1100,b:"Fresenius",i:"С ω-3"},
+  {n:"Оликлиномель N4",v:2000,k:1400,p:36,aa:"Аминовен",lip:"Клинолейк",gl:"11%",o:760,b:"Baxter",i:"Стандарт"},
+  {n:"Оликлиномель N7",v:2000,k:1800,p:60,aa:"Аминовен",lip:"Клинолейк",gl:"16%",o:1060,b:"Baxter",i:"Высокобелк."},
+  {n:"Нутрифлекс 48/150",v:1875,k:1475,p:45,aa:"48 г/л",lip:"Липофундин",gl:"15%",o:840,b:"B.Braun",i:"Стандарт"},
+  {n:"Нутрифлекс 70/240",v:1875,k:1975,p:66,aa:"70 г/л",lip:"Липофундин",gl:"24%",o:1215,b:"B.Braun",i:"Гиперкатаб."},
+  {n:"Аминовен 10%",v:500,k:160,p:50,aa:"Полный",lip:"—",gl:"—",o:860,b:"Fresenius",i:"АК-дотация"},
+];
+const MODD=[
+  {n:"Протеин Паудер",tp:"Белковый",ct:"88г/100г",k:370,i:"Доп. белок",d:"4.5г=4г белка",b:"Fresenius"},
+  {n:"Дипептивен",tp:"Глутамин",ct:"L-Ala-L-Gln",k:0,i:"Иммуномод.",d:"0.3–0.5г/кг/сут",b:"Fresenius"},
+  {n:"Омегавен 10%",tp:"ω-3",ct:"EPA+DHA",k:112,i:"ОРДС, сепсис",d:"0.1–0.2г/кг/сут",b:"Fresenius"},
+  {n:"СМОФлипид 20%",tp:"Липиды",ct:"Сое+MCT+олив+рыб",k:200,i:"ПП+ω3",d:"0.7–1.5г/кг/сут",b:"Fresenius"},
+  {n:"Липофундин МСТ/ЛСТ",tp:"Липиды",ct:"MCT50+LCT50",k:190,i:"MCT",d:"0.7–1.5г/кг/сут",b:"B.Braun"},
+  {n:"Фантомальт",tp:"Углеводный",ct:"96г/100г",k:384,i:"Доп. энергия",d:"По расчёту",b:"Nutricia"},
+  {n:"Церневит",tp:"Витамины",ct:"12 витаминов",k:0,i:"Для ПП",d:"1фл/сут",b:"Baxter"},
+  {n:"Аддамель Н",tp:"Микроэлем.",ct:"Zn,Cu,Se...",k:0,i:"Микроэлементы",d:"1амп/сут",b:"Fresenius"},
+];
+
+/* ═══════ STATE ═══════ */
+let S={tab:"phenotype",sex:"m",wt:75,ht:175,age:55,ree:1800,rq:0.82,vo2:250,vco2:205,lac:1.5,day:3,
+  mixCat:"enteral",mixFil:"all",mixIdx:0,targetKcal:1500,hours:24,
+  tmax:37.5,ve:60,aw:80,
+  rfBmi:20,rfLoss:5,rfStarve:3,rfK:false,rfMg:false,rfPo:false,rfAlc:false,rfChemo:false,
+  dlvGit:"yes",dlvTol:"yes",dlvTarget:"no",
+  complView:"ep",
+  monDays:[{d:1,ree:1800,rq:0.78,del:500,pr:40,urea:15,no:"Старт"},{d:2,ree:1900,rq:0.80,del:900,pr:65,urea:18,no:"40мл/ч"},{d:3,ree:2000,rq:0.83,del:1400,pr:90,urea:14,no:"70%"}]
+};
+
+function idW(s,h){return s==="m"?50+0.91*(h-152.4):45.5+0.91*(h-152.4)}
+function adjWt(a,i){return i+0.25*(a-i)}
+function bmiCalc(w,h){return w/((h/100)**2)}
+function hbCalc(s,w,h,a){return s==="m"?88.362+13.397*w+4.799*h-5.677*a:447.593+9.247*w+3.098*h-4.330*a}
+
+function getRec(mi,rq,wt,lac,day){
+  let e,p,cf,sub,eM,pM,mod,al=[],ta=[];const ebb=day<=2;
+  if(ebb){al.push({t:"info",x:"Сутки "+day+" — ebb-фаза. Трофическое ≤70% REE."});ta.push("Ebb: ≤70% REE, белок сразу")}
+  if(mi<0.9){e={f:ebb?.5:1,n:ebb?"50% REE":"100% REE",k:"15–25"};ta.push("Трофическое 10–20мл/ч")}
+  else if(mi<=1.1){e={f:ebb?.7:1,n:ebb?"70% REE":"100% REE",k:"25–30"}}
+  else if(mi<=1.3){e={f:ebb?.7:1,n:ebb?"70% REE":"100% REE (не выше!)",k:"25–30"};al.push({t:"warning",x:"Гиперметаб.: контроль overfeeding!"})}
+  else{e={f:ebb?.5:.75,n:ebb?"50% REE":"70–80% REE!",k:"15–20"};al.push({t:"danger",x:"Выраж. гипермет.! Max "+(ebb?"50":"70–80")+"% REE!"})}
+  if(mi<0.9)p=rq<.75?{min:1.3,max:1.5,n:"Катаб.+гипо"}:{min:1.0,max:1.3,n:"Стандарт"};
+  else if(mi<=1.1)p=rq<.75?{min:1.5,max:1.8,n:"Катаболизм"}:{min:1.2,max:1.5,n:"Стандарт"};
+  else if(mi<=1.3)p=rq<.75?{min:1.8,max:2.2,n:"Гипер+катаб."}:{min:1.5,max:1.8,n:"Гиперметаб."};
+  else p=rq<.75?{min:2.0,max:2.5,n:"Тяж. катаб."}:{min:1.8,max:2.0,n:"Выраж. гипермет."};
+  if(rq<.70){cf="30:70";sub="Кетогенез";eM="Суппортан";pM="Липофундин";mod="МСТ, Омегавен";al.push({t:"warning",x:"RQ<0.70: кетогенез!"})}
+  else if(rq<.75){cf="35:65";sub="Окисл. жиров";eM="Суппортан";pM="Кабивен";mod="МСТ, Протеин"}
+  else if(rq<.82){cf="40:60";sub="Смешанное(Л)";eM="Нутризон Стандарт";pM="Оликлиномель N4";mod="Протеин по потребности"}
+  else if(rq<.87){cf="50:50";sub="Оптимум";eM="Нутризон Стандарт";pM="Оликлиномель N4";mod="По потребности"}
+  else if(rq<.95){cf="40:60";sub="Акцент углев.";eM="Диазон";pM="Оликлиномель N7";mod="МСТ";al.push({t:"warning",x:"RQ→1.0!"})}
+  else if(rq<=1.0){cf="30:70";sub="Углеводы!";eM="Диазон";pM="СМОФКабивен";mod="Убрать глюкозу!";al.push({t:"danger",x:"Высокий RQ!"})}
+  else{cf="20:80";sub="ЛИПОГЕНЕЗ!";eM="↓ЭП";pM="СТОП ПП!";mod="Только Омегавен";al.push({t:"danger",x:"RQ>1.0 — ЛИПОГЕНЕЗ!"})}
+  if(lac>4){al.push({t:"danger",x:"Лактат "+lac+" — гипоксия!"});ta.push("Приоритет: гемодинамика!")}
+  else if(lac>2)al.push({t:"warning",x:"Лактат "+lac+" — контроль волемии."});
+  return {e,p,cf,sub,eM,pM,mod,al,ta};
+}
+
+/* ═══════ RENDER ENGINE ═══════ */
+function h(tag,attrs,children){
+  if(typeof attrs==='string')return `<${tag}>${attrs}</${tag}>`;
+  let a=Object.entries(attrs||{}).map(([k,v])=>`${k}="${v}"`).join(' ');
+  let c=Array.isArray(children)?children.join(''):children||'';
+  return `<${tag} ${a}>${c}</${tag}>`;
+}
+
+function render(){
+  const nav=document.getElementById('nav');
+  nav.innerHTML=TABS.map(t=>`<button class="${S.tab===t.id?'active':''}" onclick="S.tab='${t.id}';render()">${t.l}</button>`).join('');
+  const app=document.getElementById('app');
+  const fn={phenotype:rPhenotype,matrix:rMatrix,infusion:rInfusion,calculator:rCalculator,refeeding:rRefeeding,delivery:rDelivery,mixtures:rMixtures,monitoring:rMonitoring,complications:rComplications,reference:rReference};
+  app.innerHTML=fn[S.tab]();
+}
+
+function field(label,key,opts={}){
+  const {min,max,step,unit}=opts;
+  return `<label class="field"><span>${label}</span><input type="number" value="${S[key]}" min="${min||0}" max="${max||999}" step="${step||1}" onchange="S.${key}=parseFloat(this.value)||0;render()"> ${unit?`<span style="font-size:11px;color:var(--muted)">${unit}</span>`:''}</label>`;
+}
+function sel(label,key,options){
+  return `<label class="field"><span>${label}</span><select onchange="S.${key}=this.value;render()">${options.map(o=>`<option value="${o.v}" ${S[key]===o.v?'selected':''}>${o.l}</option>`).join('')}</select></label>`;
+}
+function alerts(al){return (al||[]).map(a=>`<div class="alert alert-${a.t}"><span>${{danger:'🔴',warning:'🟡',info:'🔵'}[a.t]}</span><span>${a.x}</span></div>`).join('');}
+function metric(label,val,color){return `<div class="card metric"><div class="lbl">${label}</div><div class="val" style="color:${color||'var(--text)'}">${val}</div></div>`;}
+
+/* ═══════ TABS ═══════ */
+function rPhenotype(){
+  const iw=Math.round(idW(S.sex,S.ht)),bv=bmiCalc(S.wt,S.ht),ob=bv>=30;
+  const cw=ob?Math.round(adjWt(S.wt,iw)):S.wt,pw=ob?iw:S.wt;
+  const hbV=hbCalc(S.sex,cw,S.ht,S.age),mi=S.ree/hbV;
+  const miC=mi<.9?["Гипометаб.","#3B82F6","❄️"]:mi<=1.1?["Нормометаб.","#10B981","⚖️"]:mi<=1.3?["Гиперметаб.","#F59E0B","🔥"]:["Выраж.гипер","#EF4444","🔴"];
+  const rqC=S.rq<.70?["Кетотич.","#1E40AF"]:S.rq<.75?["Липолит.","#3B82F6"]:S.rq<.82?["Смеш.(Л)","#06B6D4"]:S.rq<.87?["Баланс","#10B981"]:S.rq<.95?["Смеш.(У)","#F59E0B"]:S.rq<=1.0?["Углевод.","#EA580C"]:["Липоген.","#DC2626"];
+  const rc=getRec(mi,S.rq,pw,S.lac,S.day),tK=Math.round(S.ree*rc.e.f);
+  const miP=Math.min(100,Math.max(0,((mi-.5)/1.5)*100)),rqP=Math.min(100,Math.max(0,((S.rq-.5)/.8)*100));
+  const bmiAl=ob?[{t:"info",x:`ИМТ ${bv.toFixed(1)} (ожирение). Энергия по скорр. весу ${cw}кг, белок по идеальному ${iw}кг.`}]:[];
+  return `
+    <div class="hdr"><h2>🧬 Метаболическое фенотипирование</h2><p>MI×RQ · учёт суток и ИМТ</p></div>
+    <div class="card card-body">
+      <div class="section-title">Пациент</div>
+      <div class="grid grid-auto">
+        ${sel("Пол","sex",[{v:"m",l:"Муж"},{v:"f",l:"Жен"}])}
+        ${field("Факт. вес","wt",{min:30,max:300})}
+        ${field("Рост","ht",{min:100,max:220})}
+        ${field("Возраст","age",{min:18,max:100})}
+        ${field("Сутки бол.","day",{min:1,max:60})}
+      </div>
+      <div style="display:flex;gap:12px;margin-top:10px;font-size:12px;color:var(--muted);flex-wrap:wrap">
+        <span>ИМТ: <b style="color:${ob?'var(--red)':'var(--green)'}">${bv.toFixed(1)}</b></span>
+        <span>Ид.вес: <b>${iw}кг</b></span>${ob?`<span>Скорр.: <b>${cw}кг</b></span>`:''}
+        <span>Фаза: <b style="color:${S.day<=2?'var(--cyan)':'var(--yellow)'}">${S.day<=2?'Ebb':'Flow'}</b></span>
+      </div>
+      <div class="section-title" style="margin-top:14px">Калориметрия</div>
+      <div class="grid grid-auto">
+        ${field("REE (измер.)","ree",{min:500,max:5000})}
+        ${field("RQ","rq",{min:0.5,max:1.4,step:0.01})}
+        ${field("VO₂","vo2",{min:50,max:800})}
+        ${field("VCO₂","vco2",{min:50,max:800})}
+        ${field("Лактат","lac",{min:0,max:20,step:0.1})}
+      </div>
+    </div>
+    ${alerts([...bmiAl,...rc.al])}
+    <div class="grid grid-2">
+      <div class="card card-body" style="border-top:3px solid ${miC[1]}">
+        <div style="display:flex;justify-content:space-between"><span class="lbl">MI</span><span>${miC[2]}</span></div>
+        <div class="val" style="color:${miC[1]};font-size:32px">${mi.toFixed(2)}</div>
+        <div style="font-weight:600;margin-top:4px">${miC[0]}</div>
+        <div class="gauge"><div class="gauge-fill" style="width:${miP}%;background:linear-gradient(90deg,#3B82F6,#10B981,#F59E0B,#EF4444)"></div></div>
+      </div>
+      <div class="card card-body" style="border-top:3px solid ${rqC[1]}">
+        <div style="display:flex;justify-content:space-between"><span class="lbl">RQ</span><span class="tag" style="background:${rqC[1]}22;color:${rqC[1]}">${S.rq.toFixed(2)}</span></div>
+        <div class="val" style="color:${rqC[1]};font-size:32px">${S.rq.toFixed(2)}</div>
+        <div style="font-weight:600;margin-top:4px">${rqC[0]}</div>
+        <div class="gauge"><div class="gauge-fill" style="width:${rqP}%;background:linear-gradient(90deg,#1E40AF,#10B981,#F59E0B,#DC2626)"></div></div>
+        <div style="font-size:11px;color:var(--muted);margin-top:6px">${rc.sub}</div>
+      </div>
+    </div>
+    <div class="grid grid-4">
+      ${metric("REE(HB)",Math.round(hbV)+" ккал","var(--accent)")}
+      ${metric("VO₂",S.vo2+" мл/мин","var(--cyan)")}
+      ${metric("VCO₂",S.vco2+" мл/мин","var(--purple)")}
+      ${metric("Лактат",S.lac,"${S.lac>4?'var(--red)':S.lac>2?'var(--yellow)':'var(--green)'}")}
+    </div>
+    <div class="card card-body">
+      <div class="section-title">Рекомендации · сутки ${S.day} · ${S.day<=2?'ebb':'flow'}</div>
+      <div class="grid grid-3" style="margin-bottom:16px">
+        <div class="rec-box rec-green"><div class="lbl">Энергия</div><div class="val" style="color:var(--green)">${tK}</div><div style="font-size:11px">ккал/сут (${rc.e.k})</div><div style="font-size:11px;color:var(--muted);margin-top:4px">${rc.e.n}</div></div>
+        <div class="rec-box rec-purple"><div class="lbl">Белок</div><div class="val" style="color:var(--purple)">${rc.p.min}–${rc.p.max}</div><div style="font-size:11px">г/кг (${Math.round(rc.p.min*pw)}–${Math.round(rc.p.max*pw)}г)${ob?' (ид.вес!)':''}</div><div style="font-size:11px;color:var(--muted);margin-top:4px">${rc.p.n}</div></div>
+        <div class="rec-box rec-yellow"><div class="lbl">У:Ж</div><div class="val" style="color:var(--yellow)">${rc.cf}</div><div style="font-size:11px">углеводы:жиры</div></div>
+      </div>
+      ${rc.ta.length?`<div style="background:var(--card2);border-radius:10px;padding:14px;margin-bottom:14px"><div class="section-title">Тактика</div>${rc.ta.map(t=>`<div class="tactic">${t}</div>`).join('')}</div>`:''}
+      <div class="grid grid-2">
+        <div class="rec-box rec-blue"><div style="font-size:10px;color:var(--cyan);font-weight:600;margin-bottom:4px">ЭП</div><div style="font-size:13px;font-weight:500">${rc.eM}</div></div>
+        <div class="rec-box rec-pink"><div style="font-size:10px;color:var(--purple);font-weight:600;margin-bottom:4px">ПП/модули</div><div style="font-size:13px;font-weight:500">${rc.pM}</div><div style="font-size:12px;color:var(--purple);margin-top:4px">${rc.mod}</div></div>
+      </div>
+    </div>`;
+}
+
+function rMatrix(){
+  const miL=["❄️Гипо(<0.9)","⚖️Нормо(0.9–1.1)","🔥Гипер(1.1–1.3)","🔴Выраж.(>1.3)"];
+  const rqN=["Кетотич.","Липолит.","Смеш.(Л)","Баланс","Смеш.(У)","Углевод.","Липоген."];
+  const mx=[["30:70\n1.0–1.3","35:65\n1.0–1.3","40:60\n1.0–1.3","50:50\n1.0–1.3","40:60\n1.0–1.3","30:70\n1.0–1.3","↓↓ккал!\n1.0–1.3"],["30:70\n1.5–1.8","35:65\n1.2–1.5","40:60\n1.2–1.5","50:50\n1.2–1.5","40:60\n1.2–1.5","30:70\n1.2–1.5","↓↓ккал!\n1.2–1.5"],["30:70\n1.8–2.2","35:65\n1.5–1.8","40:60\n1.5–1.8","50:50\n1.5–1.8","40:60\n1.5–1.8","30:70\n1.5–1.8","↓↓ккал!\n1.5–1.8"],["30:70\n2.0–2.5","35:65\n1.8–2.0","40:60\n1.8–2.0","50:50\n1.8–2.0","40:60\n1.8–2.0","30:70\n1.8–2.0","СТОП!\n↓↓ккал!"]];
+  return `<div class="hdr" style="background:linear-gradient(135deg,#7C2D12,#9A3412)"><h2>🗂️ Матрица 17 фенотипов</h2><p>MI × RQ → У:Ж и белок (г/кг)</p></div>
+    <div class="card card-body matrix-table"><table><thead><tr><th style="background:var(--card2)">MI↓ / RQ→</th>${rqN.map((r,i)=>`<th style="background:${i===6?'#991B1B':i===3?'#065F46':'var(--card2)'}">${r}</th>`).join('')}</tr></thead>
+    <tbody>${miL.map((ml,mi)=>`<tr><td style="font-weight:700;font-size:11px;white-space:nowrap">${ml}</td>${mx[mi].map((v,rq)=>`<td class="${rq===6?'matrix-danger':rq===3?'matrix-opt':mi>=2&&rq>=4?'matrix-warn':''}">${v}</td>`).join('')}</tr>`).join('')}</tbody></table></div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px">${[{c:'var(--green)',t:'Оптимум (0.82–0.87)'},{c:'var(--yellow)',t:'Внимание'},{c:'var(--red)',t:'Опасно (RQ>1.0)'}].map(x=>`<div style="display:flex;align-items:center;gap:6px;font-size:11px;color:var(--muted)"><div style="width:12px;height:12px;border-radius:3px;background:${x.c}22;border:1px solid ${x.c}44"></div>${x.t}</div>`).join('')}</div>
+    <div class="card card-body" style="margin-top:8px"><div style="font-size:12px;color:var(--muted);line-height:1.6"><b>Верх</b> — У:Ж. <b>Низ</b> — белок г/кг/сут.</div></div>`;
+}
+
+function rInfusion(){
+  const mix=ENT[S.mixIdx],vol=Math.round(S.targetKcal/mix.k),rate=Math.round(vol/S.hours*10)/10,prot=Math.round(mix.p*vol/100);
+  return `<div class="hdr" style="background:linear-gradient(135deg,#0E7490,#155E75)"><h2>💉 Расчёт скорости введения</h2><p>Объём и скорость по целевой калорийности</p></div>
+    <div class="card card-body"><div class="grid grid-3">
+      ${field("Цель (ккал/сут)","targetKcal",{min:200,max:4000})}
+      <label class="field"><span>Смесь</span><select onchange="S.mixIdx=+this.value;render()">${ENT.map((m,i)=>`<option value="${i}" ${S.mixIdx===i?'selected':''}>${m.n} (${m.k})</option>`).join('')}</select></label>
+      ${field("Часов введения","hours",{min:8,max:24})}
+    </div></div>
+    <div class="grid grid-4">
+      ${metric("Объём",vol+" мл","var(--cyan)")}
+      ${metric("Скорость",rate+" мл/ч","var(--green)")}
+      ${metric("Белок",prot+" г","var(--purple)")}
+      ${metric("Калории",Math.round(vol*mix.k)+" ккал","var(--yellow)")}
+    </div>
+    <div class="alert alert-warning">⚠️ Старт 10–20 мл/ч, наращивать каждые 6–8ч на 10–20 мл/ч. Контроль ост. объёма каждые 6ч.</div>`;
+}
+
+function rCalculator(){
+  const hbv=hbCalc(S.sex,S.wt,S.ht,S.age),mf=S.sex==="m"?10*S.wt+6.25*S.ht-5*S.age+5:10*S.wt+6.25*S.ht-5*S.age-161;
+  const ps=Math.round(0.85*hbv+175*S.tmax+33*S.ve-6433);
+  const fm=[{n:"Harris-Benedict",v:Math.round(hbv),d:"Классическая (1919)"},{n:"Mifflin-St Jeor",v:Math.round(mf),d:"Современная (1990)"},{n:"Penn State",v:ps,d:`ИВЛ (Tmax=${S.tmax}, Ve=${S.ve})`},{n:"25 ккал/кг",v:Math.round(S.aw*25),d:"ESPEN нижняя"},{n:"30 ккал/кг",v:Math.round(S.aw*30),d:"ESPEN верхняя"}];
+  return `<div class="hdr" style="background:linear-gradient(135deg,#0F766E,#134E4A)"><h2>🔢 Калькулятор REE</h2><p>5 формул · Penn State с вводом Tmax и Ve</p></div>
+    <div class="card card-body"><div class="grid grid-auto">
+      ${sel("Пол","sex",[{v:"m",l:"Муж"},{v:"f",l:"Жен"}])}
+      ${field("Ид. вес","wt",{min:30,max:250})}
+      ${field("Факт. вес","aw",{min:30,max:300})}
+      ${field("Рост","ht",{min:100,max:220})}
+      ${field("Возраст","age",{min:18,max:100})}
+      ${field("Tmax (°C)","tmax",{min:35,max:42,step:0.1})}
+      ${field("Ve (л/мин)","ve",{min:3,max:20})}
+    </div></div>
+    ${fm.map((f,i)=>`<div class="card card-body" style="display:flex;justify-content:space-between;align-items:center;${i===0?'border-left:4px solid var(--accent)':''}"><div><div style="font-weight:600">${f.n}</div><div style="font-size:11.5px;color:var(--muted)">${f.d}</div></div><div style="font-size:24px;font-weight:800;font-family:var(--mono);color:${i===0?'var(--accent)':'var(--text)'}">${f.v} <span style="font-size:11px;color:var(--muted)">ккал</span></div></div>`).join('')}
+    <div class="alert alert-warning">⚠️ Формулы: ±20–30% ошибка. Непрямая калориметрия — золотой стандарт.</div>`;
+}
+
+function rRefeeding(){
+  const major=[S.rfBmi<16,S.rfLoss>15,S.rfStarve>10].filter(Boolean).length;
+  const minor=[S.rfBmi<18.5&&S.rfBmi>=16,S.rfLoss>10&&S.rfLoss<=15,S.rfStarve>5&&S.rfStarve<=10,S.rfAlc,S.rfChemo].filter(Boolean).length;
+  const elLow=[S.rfK,S.rfMg,S.rfPo].filter(Boolean).length;
+  const risk=major>0?"high":minor>=2||elLow>0?"high":minor===1?"moderate":"low";
+  const rc=risk==="high"?"#EF4444":risk==="moderate"?"#F59E0B":"#10B981";
+  const rl=risk==="high"?"ВЫСОКИЙ":risk==="moderate"?"УМЕРЕННЫЙ":"НИЗКИЙ";
+  const txt=risk==="high"?"Тиамин 200–300мг в/в ДО питания! Старт 10ккал/кг, K/Mg/PO₄ каждые 6–12ч.":risk==="moderate"?"Старт 15–20ккал/кг. Контроль электролитов ежедневно. Тиамин 100мг.":"Стандартный протокол наращивания ЭП.";
+  return `<div class="hdr" style="background:linear-gradient(135deg,#991B1B,#7F1D1D)"><h2>🛡️ Скрининг Refeeding Syndrome</h2><p>Критерии NICE (2006, обновл. 2017)</p></div>
+    <div class="card card-body"><div class="grid grid-3">
+      ${field("ИМТ","rfBmi",{min:10,max:50,step:0.1})}
+      ${field("Потеря веса (%)","rfLoss",{min:0,max:50})}
+      ${field("Голодание (дней)","rfStarve",{min:0,max:30})}
+    </div>
+    <div class="checkbox-row">
+      <label><input type="checkbox" ${S.rfK?'checked':''} onchange="S.rfK=this.checked;render()">K⁺ ↓</label>
+      <label><input type="checkbox" ${S.rfMg?'checked':''} onchange="S.rfMg=this.checked;render()">Mg²⁺ ↓</label>
+      <label><input type="checkbox" ${S.rfPo?'checked':''} onchange="S.rfPo=this.checked;render()">PO₄ ↓</label>
+      <label><input type="checkbox" ${S.rfAlc?'checked':''} onchange="S.rfAlc=this.checked;render()">Алкоголь</label>
+      <label><input type="checkbox" ${S.rfChemo?'checked':''} onchange="S.rfChemo=this.checked;render()">Химиотерапия</label>
+    </div></div>
+    <div class="card card-body" style="border-top:3px solid ${rc}">
+      <div class="lbl">Риск Refeeding Syndrome</div>
+      <div style="font-size:28px;font-weight:800;color:${rc}">${rl}</div>
+      <div style="font-size:12px;color:var(--muted);margin-top:8px;line-height:1.6">${txt}</div>
+    </div>`;
+}
+
+function rDelivery(){
+  let route="",details=[],rc="var(--green)";
+  if(S.dlvGit==="no"){route="Полное ПП";rc="var(--purple)";details=["ПП через ЦВК","Пересмотр ЖКТ каждые 24ч","При восстановлении → ЭП"]}
+  else if(S.dlvTol==="no"){route="Постпилорич. ЭП ± ПП";rc="var(--yellow)";details=["Назоеюнальный зонд","Прокинетики","Если 48ч без эффекта → PN"]}
+  else if(S.dlvTarget==="no"){route="ЭП + suppl. ПП";rc="var(--cyan)";details=["ЭП в макс. объёме","PN на дефицит","Цель: 80–100% REE"]}
+  else{route="Полное ЭП";details=["ЭП >80% потребности","ПП не требуется"]}
+  const q=[{q:"1. ЖКТ функционирует?",k:"dlvGit"}];
+  if(S.dlvGit==="yes")q.push({q:"2. Переносимость ЭП? (ост.V<500мл)",k:"dlvTol"});
+  if(S.dlvGit==="yes"&&S.dlvTol==="yes")q.push({q:"3. Достигнута цель (>80% REE)?",k:"dlvTarget"});
+  return `<div class="hdr" style="background:linear-gradient(135deg,#0E7490,#155E75)"><h2>🔀 Путь доставки нутриентов</h2><p>ЭП vs ПП vs смешанное</p></div>
+    <div class="card card-body"><div class="section-title">Оценка</div>
+    ${q.map(x=>`<div style="margin-bottom:14px"><div style="font-size:13px;font-weight:500;margin-bottom:8px">${x.q}</div><div style="display:flex;gap:8px"><button class="btn-yes ${S[x.k]==='yes'?'sel':''}" onclick="S.${x.k}='yes';render()">Да</button><button class="btn-no ${S[x.k]==='no'?'sel':''}" onclick="S.${x.k}='no';render()">Нет</button></div></div>`).join('')}
+    </div>
+    <div class="card card-body" style="border-top:3px solid ${rc}">
+      <div class="lbl">Рекомендуемый путь</div>
+      <div style="font-size:22px;font-weight:800;color:${rc};margin-bottom:12px">${route}</div>
+      ${details.map(d=>`<div class="tactic">${d}</div>`).join('')}
+    </div>`;
+}
+
+function rMixtures(){
+  const cats=[{id:"enteral",l:"ЭП ("+ENT.length+")"},{id:"parenteral",l:"ПП ("+PAR.length+")"},{id:"modular",l:"Модуль. ("+MODD.length+")"}];
+  const types=["all",...new Set(ENT.map(m=>m.t))];
+  let items='';
+  if(S.mixCat==="enteral"){
+    const data=S.mixFil==="all"?ENT:ENT.filter(m=>m.t===S.mixFil);
+    items=`<div style="display:flex;gap:4px;flex-wrap:wrap;margin-bottom:10px">${types.map(t=>`<button class="chip ${S.mixFil===t?'on':'off'}" onclick="S.mixFil='${t}';render()">${t==='all'?'Все':t}</button>`).join('')}</div>`+data.map(m=>`<div class="card mix-card"><div style="display:flex;justify-content:space-between;margin-bottom:6px"><div><span style="font-weight:700">${m.n}</span><span class="brand">${m.b}</span></div><span class="tag" style="background:var(--cyan)22;color:var(--cyan)">${m.t}</span></div><div class="mix-stats">${[{l:"ккал/мл",v:m.k},{l:"белок",v:m.p},{l:"жиры",v:m.f},{l:"углев.",v:m.c},{l:"мОсм",v:m.o}].map(x=>`<div class="mix-stat"><div class="v">${x.v}</div><div class="l">${x.l}</div></div>`).join('')}</div><div class="indication">${m.i}</div></div>`).join('');
+  } else if(S.mixCat==="parenteral"){
+    items=PAR.map(m=>`<div class="card mix-card"><div style="display:flex;justify-content:space-between;margin-bottom:6px"><div><span style="font-weight:700">${m.n}</span><span class="brand">${m.b}</span></div><span class="tag" style="background:var(--purple)22;color:var(--purple)">ПП</span></div><div class="mix-stats" style="grid-template-columns:repeat(4,1fr)">${[{l:"мл",v:m.v},{l:"ккал",v:m.k},{l:"белок",v:m.p},{l:"мОсм",v:m.o}].map(x=>`<div class="mix-stat"><div class="v">${x.v}</div><div class="l">${x.l}</div></div>`).join('')}</div><div style="font-size:11.5px"><b>АК:</b> ${m.aa} · <b>Липиды:</b> ${m.lip} · <b>Глюкоза:</b> ${m.gl}</div><div class="indication" style="margin-top:6px">${m.i}</div></div>`).join('');
+  } else {
+    items=MODD.map(m=>`<div class="card mix-card"><div style="display:flex;justify-content:space-between;margin-bottom:6px"><div><span style="font-weight:700">${m.n}</span><span class="brand">${m.b}</span></div><span class="tag" style="background:var(--green)22;color:var(--green)">${m.tp}</span></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:6px"><div><span style="font-size:11px;color:var(--muted)">Состав: </span><span style="font-weight:500">${m.ct}</span></div><div><span style="font-size:11px;color:var(--muted)">Ккал: </span><span style="font-weight:700;font-family:var(--mono)">${m.k}</span></div></div><div class="indication">${m.i}</div><div style="font-size:11.5px;color:var(--green);margin-top:4px;font-weight:500">Дозировка: ${m.d}</div></div>`).join('');
+  }
+  return `<div class="hdr" style="background:linear-gradient(135deg,#0369A1,#0C4A6E)"><h2>🧪 Смеси и растворы</h2><p>${ENT.length} ЭП + ${PAR.length} ПП + ${MODD.length} модульных</p></div>
+    <div style="display:flex;gap:8px;margin-bottom:12px">${cats.map(c=>`<button class="btn ${S.mixCat===c.id?'btn-outline active':'btn-outline'}" onclick="S.mixCat='${c.id}';S.mixFil='all';render()" style="flex:1">${c.l}</button>`).join('')}</div>${items}`;
+}
+
+function rMonitoring(){
+  const d=S.monDays;
+  const nBal=(pr,urea)=>{const nIn=pr/6.25;const nOut=urea*0.466+4;return Math.round((nIn-nOut)*10)/10};
+  return `<div class="hdr" style="background:linear-gradient(135deg,#B45309,#78350F)"><h2>📊 Мониторинг</h2><p>REE, RQ, покрытие, азотистый баланс</p></div>
+    <div class="card" style="overflow-x:auto"><table><thead><tr>${["Д","REE","RQ","Дост.","Белок","Моч.","N-бал","%","Прим."].map(h=>`<th>${h}</th>`).join('')}</tr></thead>
+    <tbody>${d.map((r,i)=>{const pct=Math.round((r.del/r.ree)*100);const pc=pct>=80?'var(--green)':pct>=60?'var(--yellow)':'var(--red)';const nb=nBal(r.pr,r.urea);const nc=nb>=0?'var(--green)':'var(--red)';
+    return `<tr><td style="text-align:center;font-weight:700;font-family:var(--mono)">${r.d}</td>
+    <td><input type="number" value="${r.ree}" onchange="S.monDays[${i}].ree=+this.value;render()"></td>
+    <td><input type="number" value="${r.rq}" step="0.01" onchange="S.monDays[${i}].rq=+this.value;render()"></td>
+    <td><input type="number" value="${r.del}" onchange="S.monDays[${i}].del=+this.value;render()"></td>
+    <td><input type="number" value="${r.pr}" onchange="S.monDays[${i}].pr=+this.value;render()"></td>
+    <td><input type="number" value="${r.urea}" onchange="S.monDays[${i}].urea=+this.value;render()"></td>
+    <td style="text-align:center"><span style="color:${nc};font-weight:700;font-family:var(--mono)">${nb>0?'+':''}${nb}</span></td>
+    <td style="text-align:center"><span style="color:${pc};font-weight:700">${pct}%</span></td>
+    <td><input type="text" value="${r.no}" onchange="S.monDays[${i}].no=this.value;render()"></td></tr>`}).join('')}</tbody></table></div>
+    <button class="btn-ghost" onclick="const l=S.monDays[S.monDays.length-1];S.monDays.push({d:l.d+1,ree:l.ree,rq:l.rq,del:l.del,pr:l.pr,urea:l.urea,no:''});render()">+ Добавить день</button>
+    <div class="grid grid-4" style="margin-top:12px">
+      ${metric("Ср.REE",Math.round(d.reduce((s,r)=>s+r.ree,0)/d.length),"var(--accent)")}
+      ${metric("Ср.RQ",(d.reduce((s,r)=>s+r.rq,0)/d.length).toFixed(2),"var(--purple)")}
+      ${metric("Покрытие",Math.round(d.reduce((s,r)=>s+(r.del/r.ree)*100,0)/d.length)+"%","var(--green)")}
+      ${metric("Ср.N-бал",(d.reduce((s,r)=>s+nBal(r.pr,r.urea),0)/d.length).toFixed(1),"var(--yellow)")}
+    </div>
+    <div class="card card-body" style="margin-top:8px"><div style="font-size:12px;color:var(--muted);line-height:1.6"><b>N-баланс</b> = N_in(белок/6.25) − N_out(мочевина×0.466+4). Цель: +2…+4 г/сут.</div></div>`;
+}
+
+function rComplications(){
+  const ep=[{n:"Высокий ост. объём",s:"warning",a:["↓ скорость на 50%","Прокинетики","Головной конец 30–45°","48ч → постпилорический доступ"]},
+    {n:"Диарея",s:"warning",a:["Исключить C.difficile!","↓ скорость","Пептамен / с клетчаткой","Не прекращать ЭП!"]},
+    {n:"Аспирация",s:"danger",a:["СТОП ЭП","Санация ТБД","Головной конец 45°","Постпилорический зонд"]},
+    {n:"Гипергликемия",s:"warning",a:["Диазон","Инсулин: 6–10 ммоль/л","↓ глюкозу в/в"]},
+    {n:"Refeeding",s:"danger",a:["↓↓ калорийность","K,Mg,PO₄ каждые 6–12ч","Тиамин 200–300мг в/в!","10ккал/кг → +33%/сут"]}];
+  const pp=[{n:"Катетерная инфекция",s:"danger",a:["Посев крови","Эмпирическая АБТ","Рассмотреть удаление катетера"]},
+    {n:"Гипертриглицеридемия",s:"warning",a:["↓ скорость липидов",">12 → СТОП липиды","СМОФлипид"]},
+    {n:"Холестаз",s:"warning",a:["↓ липиды до 1 г/кг","СМОФлипид/Омегавен","Циклическое ПП"]},
+    {n:"Гипергликемия на ПП",s:"warning",a:["↓ глюкозу (max 4–5 г/кг/сут)","Инсулин в/в"]},
+    {n:"Перегрузка жидкостью",s:"warning",a:["Концентрированные р-ры","↑ ЭП, ↓ ПП"]}];
+  const data=S.complView==="ep"?ep:pp;
+  return `<div class="hdr" style="background:linear-gradient(135deg,#991B1B,#7F1D1D)"><h2>⚠️ Осложнения НП</h2><p>Алгоритмы действий</p></div>
+    <div style="display:flex;gap:8px;margin-bottom:12px">${[{id:"ep",l:"Осложнения ЭП"},{id:"pp",l:"Осложнения ПП"}].map(c=>`<button class="btn ${S.complView===c.id?'btn-outline active':'btn-outline'}" onclick="S.complView='${c.id}';render()" style="flex:1">${c.l}</button>`).join('')}</div>
+    ${data.map(c=>`<div class="card compl-card" style="border-top:3px solid ${c.s==='danger'?'var(--red)':'var(--yellow)'}"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px"><h4>${c.n}</h4><span class="tag" style="background:${c.s==='danger'?'var(--red)':'var(--yellow)'}22;color:${c.s==='danger'?'var(--red)':'var(--yellow)'}">${c.s==='danger'?'Критическое':'Внимание'}</span></div>${c.a.map((a,j)=>`<div class="step"><span class="num" style="color:${c.s==='danger'?'var(--red)':'var(--yellow)'}">${j+1}.</span>${a}</div>`).join('')}</div>`).join('')}`;
+}
+
+function rReference(){
+  const sec=[
+    {t:"RQ",it:[{l:"<0.70",d:"Кетогенез"},{l:"0.70–0.85",d:"Смешанное (норма)"},{l:"0.85–1.0",d:"Углеводы"},{l:">1.0",d:"Липогенез!"}]},
+    {t:"MI",it:[{l:"<0.9",d:"Гипометаболизм"},{l:"0.9–1.1",d:"Нормо"},{l:"1.1–1.3",d:"Гипер"},{l:">1.3",d:"Выраж.гипер"}]},
+    {t:"Лактат",it:[{l:"<2",d:"Норма"},{l:"2–4",d:"Гипоперфузия"},{l:">4",d:"Тяжёлая гипоксия!"}]},
+    {t:"Фазы",it:[{l:"Ebb (0–48ч)",d:"Гипометаб., трофич. ЭП ≤70% REE"},{l:"Flow (>48ч)",d:"Гиперметаб., до 100% REE"}]},
+    {t:"ИМТ-коррекция",it:[{l:"ИМТ<30",d:"По фактическому весу"},{l:"ИМТ 30–50",d:"Энергия по скорр., белок по идеальному"},{l:"ИМТ>50",d:"По идеальному весу"}]},
+    {t:"N-баланс",it:[{l:"Формула",d:"N_in − N_out(моч×0.466+4)"},{l:"Цель",d:"+2…+4 г/сут"},{l:"Отрицат.",d:"↑ белковую дотацию"}]},
+    {t:"ESPEN/ASPEN",it:[{l:"ЭП",d:"24–48ч, старт"},{l:"Белок",d:"≥1.3 г/кг"},{l:"ПП",d:"Не ранее 3–7 дня"},{l:"Глутамин",d:"0.3–0.5г/кг (не при ПОН!)"},{l:"ω-3",d:"При ОРДС, сепсисе"}]},
+    {t:"Источники",it:[{l:"ESPEN 2019",d:"Singer et al. Clin Nutr"},{l:"ESPEN 2023",d:"Update"},{l:"ASPEN 2022",d:"Compher et al. JPEN"},{l:"EFFORT",d:"Heyland, Lancet 2023"},{l:"NICE 2006",d:"Refeeding guidelines"}]}
+  ];
+  return `<div class="hdr" style="background:linear-gradient(135deg,#4338CA,#312E81)"><h2>📖 Справочник</h2><p>Ключевые данные</p></div>
+    ${sec.map(s=>`<div class="card card-body"><div style="font-size:13px;font-weight:700;margin-bottom:8px">${s.t}</div>${s.it.map((x,i)=>`<div style="display:flex;gap:12px;padding:6px 0;${i<s.it.length-1?'border-bottom:1px solid var(--border)':''}"><div style="font-weight:700;color:var(--accent2);min-width:80px;font-size:12.5px;font-family:var(--mono)">${x.l}</div><div style="font-size:12.5px;color:var(--muted)">${x.d}</div></div>`).join('')}</div>`).join('')}`;
+}
+
+render();
+</script>
+</body>
+</html>
